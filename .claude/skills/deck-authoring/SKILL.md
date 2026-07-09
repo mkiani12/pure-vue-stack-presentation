@@ -79,6 +79,10 @@ Diagram sizing — keep charts big enough to read from the back of the room:
   slides reference `var(--…)`, never hex literals inline.
 - Layout helpers: `.grid-2/.grid-3/.grid-4`, `.card`, `.tag`, `.lead`,
   `.part-divider` (act separators), `.numbered-grid`.
+- Every decision-carrying slide ends with a `.biz` strip — two cells,
+  `.gain` (business benefit: maintainability, dev speed, onboarding…) and
+  `.cost` (what it costs), one sentence each. Mirror the same point in that
+  slide's STORY.md entry (an «از نگاه بیزینس» paragraph).
 - Fonts load from `fonts.bunny.net` (GDPR-friendly Google Fonts mirror, still
   CDN-only).
 

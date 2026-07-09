@@ -419,6 +419,15 @@
 .reveal .layer.sky { --layer-c: var(--sky); }
 .reveal .layer.amber { --layer-c: var(--amber); }
 .reveal .layer.rose { --layer-c: var(--rose); }
+.reveal .layer.mute { --layer-c: var(--ink-mute); }
+
+/* compact variant for tall stacks (6-7 rows) */
+.reveal .layers.dense .layer {
+  padding: 0.32em 0.9em;
+}
+.reveal .layers.dense {
+  gap: 0.32em;
+}
 
 /* Big verdict banner ----------------------------------------------------------------------- */
 
@@ -448,6 +457,36 @@
     radial-gradient(circle at 15% 0%, rgba(251, 191, 36, 0.13), transparent 55%),
     radial-gradient(circle at 90% 100%, rgba(167, 139, 250, 0.12), transparent 55%),
     var(--bg-card);
+}
+
+/* Business impact strip (benefit vs cost) ------------------------------------------------------ */
+
+.reveal .biz {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6em;
+  margin-top: 0.55em;
+}
+.reveal .biz > div {
+  border-radius: 10px;
+  padding: 0.4em 0.75em;
+  font-size: 0.55em;
+  line-height: 1.45;
+  color: var(--ink-dim);
+}
+.reveal .biz .gain {
+  border: 1px solid rgba(66, 211, 146, 0.3);
+  background: rgba(66, 211, 146, 0.05);
+}
+.reveal .biz .cost {
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  background: rgba(251, 191, 36, 0.05);
+}
+.reveal .biz .gain strong {
+  color: var(--vue);
+}
+.reveal .biz .cost strong {
+  color: var(--amber);
 }
 
 /* Numbered grid (compact rule lists) ---------------------------------------------------------- */

@@ -75,9 +75,9 @@
             سلام به همه. امروز درباره‌ی استک جدید فرانت‌اند صحبت می‌کنیم: مهاجرت از
             Nuxt به Vue خالص. این ارائه فقط تعریف و مقایسه می‌کند — هیچ تصمیمی
             از قبل گرفته نشده؛ سر هر بخش همین‌جا بحث و تصمیم‌گیری می‌کنیم.
-            موضوعات: فریم‌ورک UI، طبقه‌بندی کامپوننت‌ها (و مقایسه با استاندارد
-            Atomic)، جای منطق، و Labs و design tokenها. همه با فرض توسعه‌ی
-            agent-driven.
+            موضوعات: فریم‌ورک UI، طبقه‌بندی کامپوننت‌ها (و مقایسه با
+            سلسله‌مراتب مدرن کامپوننت)، جای منطق، و Labs و design tokenها.
+            همه با فرض توسعه‌ی agent-driven.
           </aside>
         </section>
 
@@ -111,13 +111,25 @@
             Everything in the left column exists as a
             <strong>small, explicit Vue library</strong>.
           </p>
+          <div class="biz">
+            <div class="gain">
+              <strong>Benefit</strong> — dev speed: no upgrade freezes,
+              direct debugging, agents guess less → fewer bugs
+            </div>
+            <div class="cost">
+              <strong>Cost</strong> — one-time migration effort + the team
+              relearns explicit patterns
+            </div>
+          </div>
           <aside class="notes">
             ما Nuxt را همیشه در حالت SPA اجرا می‌کردیم — یعنی یک فریم‌ورک سروری
             که فقط به عنوان روتر استفاده می‌شد. چیزهایی که واقعاً استفاده
             می‌کردیم چهار قابلیت ساده است و همه‌شان معادل صریح و سبک در
             اکوسیستم Vue دارند. در عوض هزینه‌ی جادوی framework، آپگریدهای بزرگ
             و دیباگ لایه‌به‌لایه را می‌دادیم. برای agentها هم «جادو» یعنی
-            حدس‌زدن — و حدس یعنی باگ.
+            حدس‌زدن — و حدس یعنی باگ. از نگاه بیزینس: سود، سرعت توسعه است —
+            نه فریز برای آپگرید، نه دیباگ لایه‌به‌لایه؛ هزینه، یک‌بار مهاجرت
+            و عادت‌کردن تیم به الگوهای صریح.
           </aside>
         </section>
 
@@ -526,6 +538,16 @@
             <li><strong>One library</strong> — form → table → toast, no mixing</li>
             <li><strong>shadcn philosophy kept</strong> — our <code>Base*</code> wrappers own the API surface</li>
           </ol>
+          <div class="biz">
+            <div class="gain">
+              <strong>Benefit</strong> — 100+ ready components + one
+              theming system → faster delivery, cheaper UI maintenance
+            </div>
+            <div class="cost">
+              <strong>Cost</strong> — team learns Tailwind idioms; a bet on a
+              younger ecosystem than Vuetify's
+            </div>
+          </div>
           <aside class="notes">
             پیشنهاد ما — نه حکم: Nuxt UI نسخه‌ی ۴ در حالت standalone روی Vue
             خالص. پنج دلیل: یک، همین حالا در front-cp-v2 در production جواب
@@ -547,13 +569,14 @@
           <p class="act">III</p>
           <h1>Components, classified</h1>
           <p class="lead">
-            our four layers · the Atomic Design standard · migrate or not?
+            our four layers · the modern component hierarchy · migrate or not?
           </p>
           <aside class="notes">
             پرده‌ی سوم: طبقه‌بندی کامپوننت‌ها. اول سیستم خودمان، بعد
-            مقایسه با استاندارد صنعت — Atomic Design — و یک تصمیم باز:
-            مهاجرت بکنیم یا نه. هدف نهایی: هیچ agent و هیچ توسعه‌دهنده‌ای
-            هرگز نپرسد «این کامپوننت را کجا بسازم؟»
+            مقایسه با استاندارد امروز صنعت — سلسله‌مراتب مدرن کامپوننت، از
+            token تا page — و یک تصمیم باز: مهاجرت بکنیم یا نه. هدف نهایی:
+            هیچ agent و هیچ توسعه‌دهنده‌ای هرگز نپرسد «این کامپوننت را کجا
+            بسازم؟»
           </aside>
         </section>
 
@@ -593,6 +616,16 @@
           <p class="lead" style="margin-top: 0.5em; font-size: 0.6em">
             Only screens are smart. Everything else renders props.
           </p>
+          <div class="biz">
+            <div class="gain">
+              <strong>Benefit</strong> — maintainability: dumb components
+              are cheap to test, reuse, restyle; the UI stays consistent
+            </div>
+            <div class="cost">
+              <strong>Cost</strong> — more files and discipline per feature:
+              slower first screen, faster every next one
+            </div>
+          </div>
           <aside class="notes">
             چهار لایه داریم. Base* یعنی primitiveهای سراسری که Nuxt UI و
             کتابخانه‌های سنگین را wrap می‌کنند — فقط props و emits. App* یعنی
@@ -685,125 +718,163 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 18 · Atomic Design — the industry standard -->
+        <!-- 18 · The modern component hierarchy -->
         <section
           data-background-gradient="radial-gradient(circle at 75% 25%, #101d2a 0%, #0b0e14 65%)"
         >
-          <h2>The industry standard — Atomic Design</h2>
+          <h2>The modern component hierarchy</h2>
           <p class="lead">
-            Brad Frost, 2013 — the shared vocabulary of big-tech design systems
+            the practical evolution of Atomic Design — how today's design systems
+            classify a dashboard
           </p>
-          <div class="layers" style="margin-top: 0.4em">
-            <div class="layer">
-              <span class="name">Atoms</span>
+          <div class="layers dense" style="margin-top: 0.35em">
+            <div class="layer amber">
+              <span class="name">Design Tokens</span>
               <span class="desc">
-                <strong>Indivisible primitives</strong> — button, input, label, icon.
+                <strong>Not components</strong> — color, spacing, type, radius, motion ·
+                <code>primary-500</code>, <code>space-4</code>
+              </span>
+            </div>
+            <div class="layer">
+              <span class="name">Primitives</span>
+              <span class="desc">
+                <strong>Smallest reusable blocks, no business logic</strong> —
+                Button, Input, Card, Badge, Icon
               </span>
             </div>
             <div class="layer violet">
-              <span class="name">Molecules</span>
+              <span class="name">Composites</span>
               <span class="desc">
-                <strong>A few atoms, one job</strong> — search field = label + input + button.
+                <strong>Primitives + interaction logic</strong> —
+                Modal, Select, Tabs, DatePicker, FileUploader
               </span>
             </div>
             <div class="layer sky">
-              <span class="name">Organisms</span>
+              <span class="name">Patterns</span>
               <span class="desc">
-                <strong>Self-contained sections</strong> — header, product grid, sidebar.
-              </span>
-            </div>
-            <div class="layer amber">
-              <span class="name">Templates</span>
-              <span class="desc">
-                <strong>Page skeletons</strong> — layout and slots, no real content.
+                <strong>Composites solving a common UI pattern</strong> —
+                DataTable, FilterBar, SearchPanel, ChartCard
               </span>
             </div>
             <div class="layer rose">
+              <span class="name">Features</span>
+              <span class="desc">
+                <strong>One business domain, rarely reusable outside it</strong> —
+                SEOOverview, TrafficSourcesChart, VisitorMap
+              </span>
+            </div>
+            <div class="layer mute">
+              <span class="name">Layouts</span>
+              <span class="desc">
+                <strong>Arrange children only, never business logic</strong> —
+                Stack, Grid, DashboardLayout, AuthLayout
+              </span>
+            </div>
+            <div class="layer amber">
               <span class="name">Pages</span>
               <span class="desc">
-                <strong>Templates with real data</strong> — what users actually see.
+                <strong>Assemble a full screen, mapped to routes</strong> —
+                DashboardPage, ReportsPage, SettingsPage
               </span>
             </div>
           </div>
-          <p class="lead" style="margin-top: 0.45em; font-size: 0.6em">
-            classifies by <strong>composition</strong>: each level is built from the
-            one below · echoed across Material, Carbon, Lightning, Polaris
+          <p class="lead" style="margin-top: 0.35em; font-size: 0.58em">
+            tokens → primitives → composites → patterns → features → pages —
+            each builds on the previous · layouts cut across all levels
           </p>
           <aside class="notes">
             تا این‌جا سیستم خودمان را دیدید؛ سؤال منصفانه: دنیا چه می‌کند؟
-            استاندارد رایج صنعت Atomic Design است — برد فراست، ۲۰۱۳. ایده از
-            شیمی می‌آید: atom ها primitive های تجزیه‌ناپذیرند؛ molecule ترکیب
-            چند atom با یک وظیفه؛ organism بخش خودکفای صفحه؛ template اسکلت
-            بدون محتوا؛ و page همان template با داده‌ی واقعی. این واژگانِ
-            مشترک design system های بزرگ است — از Material گوگل تا Carbon و
-            Lightning و Polaris.
+            سلسله‌مراتب مدرن کامپوننت — تکامل عملی Atomic Design — هفت سطح
+            دارد. design token ها اصلاً کامپوننت نیستند: رنگ، فاصله،
+            تایپوگرافی. primitive ها کوچک‌ترین بلوک‌های بدون منطق بیزینسی‌اند:
+            Button و Input و Badge. composite ها primitive به‌علاوه‌ی منطق
+            تعامل‌اند: Modal و DatePicker. pattern ها یک الگوی رایج UI را حل
+            می‌کنند: DataTable و FilterBar. feature ها مال یک دامنه‌ی
+            بیزینسی‌اند و بیرون آن معمولاً قابل استفاده نیستند: SEOOverview و
+            VisitorMap. layout ها فقط چیدمان‌اند و هرگز منطق بیزینسی
+            نمی‌دانند. و page ها کل صفحه را سرهم می‌کنند و به route وصل‌اند.
           </aside>
         </section>
 
-        <!-- 19 · Atomic vs ours -->
+        <!-- 19 · Modern hierarchy vs ours -->
         <section>
-          <h2>Atomic vs ours — a different axis</h2>
+          <h2>The hierarchy vs ours — close cousins</h2>
           <table style="width: 100%">
             <thead>
               <tr>
-                <th>Atomic level</th>
+                <th>Hierarchy level</th>
                 <th>Our equivalent</th>
                 <th>Match?</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Atoms</td>
+                <td>Design tokens</td>
+                <td><code>tokens.css</code> <code>@theme</code> — Act V</td>
+                <td>≈ exact — same foundation</td>
+              </tr>
+              <tr>
+                <td>Primitives</td>
                 <td><code>Base*</code> primitives — <code>BaseInput</code>, <code>BaseChip</code></td>
                 <td>≈ direct</td>
               </tr>
               <tr>
-                <td>Molecules</td>
-                <td><code>Base*</code> composites — <code>BaseDatePicker</code>, <code>BaseServerDataTable</code></td>
-                <td>≈ we don't split these two levels</td>
+                <td>Composites</td>
+                <td><code>Base*</code> composites — <code>BaseDatePicker</code>, <code>BaseFilePond</code></td>
+                <td>≈ same folder, no split</td>
               </tr>
               <tr>
-                <td>Organisms</td>
-                <td><code>App*</code> shell + module components</td>
-                <td>≈ but we also split by <strong>ownership</strong></td>
+                <td>Patterns</td>
+                <td><code>App*</code> shell + <code>BaseServerDataTable</code></td>
+                <td>≈ spread across two of our layers</td>
               </tr>
               <tr>
-                <td>Templates</td>
-                <td><code>layouts/</code> — default, auth, blank</td>
-                <td>≈ direct</td>
+                <td>Features</td>
+                <td>module components — <code>MediaCard</code>, <code>PaymentSidebar</code></td>
+                <td>≈ ours adds <strong>module isolation</strong></td>
+              </tr>
+              <tr>
+                <td>Layouts</td>
+                <td><code>layouts/</code> + Tailwind utilities</td>
+                <td>≈ we use utility classes, not Stack/Grid components</td>
               </tr>
               <tr>
                 <td>Pages</td>
                 <td>screens (smart) + <code>pages/</code> routes</td>
-                <td>⚠ atomic has no smart/dumb rule</td>
+                <td>⚠ the hierarchy has no smart/dumb rule</td>
               </tr>
             </tbody>
           </table>
-          <div class="grid-2" style="margin-top: 0.5em">
+          <div class="grid-2" style="margin-top: 0.45em">
             <div class="card sky">
-              <h3>Atomic's axis</h3>
+              <h3>Its axis</h3>
               <p>
-                <strong>Composition granularity</strong> — "how big is it?"
-                Designer-first vocabulary.
+                <strong>Composition + reusability scope</strong> — generic → domain.
+                Much closer to us than Atomic ever was.
               </p>
             </div>
             <div class="card violet">
-              <h3>Our axis</h3>
+              <h3>What ours adds</h3>
               <p>
-                <strong>Ownership &amp; data access</strong> — "who may import it,
-                may it fetch?" Agent-first guardrails.
+                <strong>Ownership &amp; data access</strong> — who may import it,
+                may it fetch? The agent guardrails.
               </p>
             </div>
           </div>
           <aside class="notes">
-            نگاشت تقریباً یک‌به‌یک وجود دارد: atom و molecule هر دو در Base*
-            ما هستند — ما این دو سطح را جدا نکرده‌ایم؛ organism معادل App* و
-            کامپوننت‌های ماژول است اما ما مالکیت را هم جدا می‌کنیم؛ template
-            همان layout ماست و page همان screen به‌علاوه‌ی route. تفاوت اصلی
-            محور است: اتمیک بر اساس اندازه‌ی ترکیب دسته‌بندی می‌کند و
-            طراح‌محور است؛ سیستم ما بر اساس مالکیت و دسترسی به داده — و برای
-            agent ها ساخته شده. اتمیک درباره‌ی smart/dumb، ایزوله بودن
-            ماژول‌ها و جای fetch حرفی نمی‌زند.
+            نگاشت سطح‌به‌سطح: token ها دقیقاً همان tokens.css ماست — همان
+            بنیادی که در پرده‌ی پنجم می‌بینیم. primitive ها همان Base* های
+            ساده و composite ها همان Base* های مرکب‌اند — ما این دو را در یک
+            پوشه نگه داشته‌ایم. pattern ها بین دو لایه‌ی ما پخش‌اند: پوسته‌ی
+            App* و چیزهایی مثل BaseServerDataTable. feature ها همان
+            کامپوننت‌های ماژول ما هستند — با این تفاوت که ما ایزوله بودن
+            ماژول را هم با lint قفل کرده‌ایم. layout: ما به‌جای کامپوننت‌های
+            Stack و Grid از utility های Tailwind استفاده می‌کنیم. و page همان
+            screen به‌علاوه‌ی route است. این سلسله‌مراتب خیلی به ما نزدیک‌تر
+            از Atomic است — محورش ترکیب و دامنه‌ی استفاده‌ی مجدد است و
+            generic را از domain جدا می‌کند، همان غریزه‌ی ما. چیزی که ما اضافه
+            داریم: مالکیت و دسترسی به داده — smart/dumb و جای fetch — یعنی
+            guardrail های agent.
           </aside>
         </section>
 
@@ -816,40 +887,56 @@ flowchart LR
             <div class="card">
               <h3>Migration path — if yes</h3>
               <ul>
-                <li>Split <code>shared/ui/base</code> → <code>atoms/</code> + <code>molecules/</code></li>
-                <li>Shell + module components → <code>organisms/</code></li>
-                <li><code>layouts/</code> = templates · screens = pages — already 1:1</li>
+                <li>Split <code>shared/ui/base</code> → <code>primitives/</code> + <code>composites/</code></li>
+                <li><code>App*</code> shell + table/filter assemblies → <code>patterns/</code></li>
+                <li>Module components → <code>features/</code> — stay inside modules</li>
+                <li>Tokens, <code>layouts/</code>, pages — already 1:1</li>
                 <li>Update rules, skills, lint zones — agents relearn <strong>once</strong></li>
               </ul>
             </div>
             <div class="card violet">
               <h3>Does it answer our use case?</h3>
               <ul>
-                <li><strong>Gives:</strong> designer-shared vocabulary, Figma alignment, familiar onboarding</li>
-                <li><strong>Misses:</strong> data-access rules, module isolation, smart/dumb — our real guardrails</li>
-                <li><strong>Net:</strong> a naming layer, not an architecture — our rules stay either way</li>
+                <li><strong>Gives:</strong> finer granularity, industry vocabulary, tokens as an explicit level — which we already live</li>
+                <li><strong>Misses:</strong> smart/dumb, data-access rules, lint-locked module isolation — our real guardrails</li>
+                <li><strong>Net:</strong> the closest standard to ours — adopting is mostly renaming, keeping is mostly vocabulary</li>
               </ul>
+            </div>
+          </div>
+          <div class="biz">
+            <div class="gain">
+              <strong>Benefit</strong> — industry vocabulary cuts
+              onboarding and designer-handoff time
+            </div>
+            <div class="cost">
+              <strong>Cost</strong> — one-time repo-wide rename churn +
+              rules/skills retraining
             </div>
           </div>
           <div class="verdict open" style="margin-top: 0.55em">
             <p class="big" style="font-size: 1em">
-              Open — adopt Atomic · hybrid · keep ours
+              Open — adopt the hierarchy · hybrid · keep ours
             </p>
             <p class="lead" style="margin: 0.25em 0 0; font-size: 0.6em">
-              hybrid = keep the four layers, speak Atomic vocabulary in Labs &amp; Figma
+              hybrid = keep our four layers + guardrails, speak this vocabulary in
+              Labs &amp; Figma
             </p>
           </div>
           <aside class="notes">
-            اگر مهاجرت کنیم مسیر روشن است: base به atoms و molecules تقسیم
-            می‌شود؛ پوسته و کامپوننت‌های ماژول organism می‌شوند؛ layout ها
-            همین حالا template اند و screen ها page — نگاشت تقریباً یک‌به‌یک
-            است و هزینه‌ی اصلی به‌روزکردن rule ها و skill ها و zone های lint
-            است. اما آیا به use case ما جواب می‌دهد؟ می‌دهد: واژگان مشترک با
-            طراح‌ها و Figma و onboarding آشنا. نمی‌دهد: قواعد دسترسی به داده،
-            ایزوله بودن ماژول و smart/dumb — یعنی guardrail های واقعی ما.
-            جمع‌بندی برای بحث: اتمیک بیشتر لایه‌ی نام‌گذاری است تا معماری.
-            سه گزینه: مهاجرت کامل، حالت ترکیبی (لایه‌های خودمان + واژگان
-            اتمیک در Labs و Figma)، یا ماندن. همین‌جا تصمیم بگیریم.
+            اگر مهاجرت کنیم مسیر روشن است: base به primitives و composites
+            تقسیم می‌شود؛ پوسته‌ی App* و اسمبلی‌هایی مثل جدول و فیلتر
+            pattern می‌شوند؛ کامپوننت‌های ماژول feature اند و داخل ماژول
+            می‌مانند؛ token ها و layout ها و page ها همین حالا یک‌به‌یک‌اند.
+            هزینه‌ی واقعی به‌روزکردن rule ها و skill ها و zone های lint است —
+            که agent ها فقط یک‌بار دوباره یاد می‌گیرند. آیا به use case ما
+            جواب می‌دهد؟ می‌دهد: دانه‌بندی دقیق‌تر، واژگان استاندارد صنعت، و
+            token ها به‌عنوان سطح صریح — که ما همین حالا با آن زندگی می‌کنیم.
+            نمی‌دهد: smart/dumb، قواعد دسترسی به داده و ایزوله بودن ماژول که
+            با lint قفل شده — guardrail های واقعی ما. جمع‌بندی برای بحث: این
+            نزدیک‌ترین استاندارد به سیستم ماست — مهاجرت عمدتاً تغییر نام است
+            و ماندن هم عمدتاً بحث واژگان. سه گزینه: مهاجرت کامل، حالت ترکیبی
+            (ساختار و guardrail خودمان + این واژگان در Labs و Figma)، یا
+            ماندن. همین‌جا تصمیم بگیریم.
           </aside>
         </section>
 
@@ -954,6 +1041,16 @@ flowchart LR
             <code>front-cp-v2</code> has <strong>3 global stores</strong> total —
             auth · theme · cart. That's the point.
           </p>
+          <div class="biz">
+            <div class="gain">
+              <strong>Benefit</strong> — predictable placement → faster
+              reviews, testable logic, no shared-state bug hunts
+            </div>
+            <div class="cost">
+              <strong>Cost</strong> — discipline overhead: sometimes a three-file
+              indirection for a small feature
+            </div>
+          </div>
           <aside class="notes">
             ترتیب سؤال‌ها مهم است. اول: تابع خالص است؟ util. دوم: state باید
             از route عبور کند یا بین ماژول‌ها مشترک باشد؟ store. سوم: جریانِ
@@ -1096,6 +1193,16 @@ flowchart LR
             palette → semantic token → utility class · dark mode = tokens flip under
             <code>.dark</code>, components never change
           </p>
+          <div class="biz">
+            <div class="gain">
+              <strong>Benefit</strong> — rebrand or theme changes in
+              hours, not weeks; design updates never touch components
+            </div>
+            <div class="cost">
+              <strong>Cost</strong> — upfront token discipline: no quick hex
+              hacks, every color goes through the pipeline
+            </div>
+          </div>
           <aside class="notes">
             توکن طراحی یعنی: رنگ و فونت و فاصله فقط در یک فایل تعریف می‌شود —
             tokens.css — و بقیه‌ی اپ فقط به اسم semantic آن ارجاع می‌دهد.
@@ -1144,6 +1251,16 @@ flowchart LR
   class a,b,c,d s
   class e g
           </pre>
+          <div class="biz">
+            <div class="gain">
+              <strong>Benefit</strong> — design QA happens on live
+              components: fewer feedback loops, faster sign-off
+            </div>
+            <div class="cost">
+              <strong>Cost</strong> — every <code>Base*</code> PR also updates its
+              Labs section — a small, permanent tax
+            </div>
+          </div>
           <aside class="notes">
             Labs یک صفحه‌ی واقعی در خود اپ است — کاتالوگ زنده‌ی design system.
             هر خانواده‌ی primitive یک سکشن دارد و همه‌ی variant ها در هر دو
@@ -1202,11 +1319,21 @@ flowchart TB
               </li>
             </ul>
           </div>
+          <div class="biz">
+            <div class="gain">
+              <strong>Benefit</strong> — onboarding in days, no drift
+              between devs; senior time moves from reviews to architecture
+            </div>
+            <div class="cost">
+              <strong>Cost</strong> — rules and skills need gardening: a stale
+              rule misleads every agent that reads it
+            </div>
+          </div>
           <aside class="notes">
             و نخ تسبیح همه‌ی این‌ها: هیچ‌کدام به حافظه‌ی آدم‌ها تکیه ندارد.
             هر تصمیمی که در این جلسه بگیریم — فریم‌ورک، لایه‌های کامپوننت،
-            نام‌گذاری اتمیک یا خودمان، درخت تصمیم منطق، قانون Labs — به‌شکل
-            rule و skill کدنویسی می‌شود.
+            سلسله‌مراتب مدرن یا نام‌گذاری خودمان، درخت تصمیم منطق، قانون
+            Labs — به‌شکل rule و skill کدنویسی می‌شود.
             برای هر نوع artifact یک skill نویسندگی داریم؛ فایل‌های generate
             شده محافظت می‌شوند؛ و hook ها پایان کار را gate می‌کنند: lint،
             typecheck، تست، data-test و هر دو زبان. agent بعدی و همکار بعدی
@@ -1227,7 +1354,7 @@ flowchart TB
             <li><strong>Pure Vue + Vite</strong> — leave Nuxt for explicit over magic?</li>
             <li><strong>UI framework</strong> — scorecard favors Nuxt UI v4 standalone</li>
             <li><strong>Four component layers</strong> — Base* / App* / module / screen</li>
-            <li><strong>Component taxonomy</strong> — adopt Atomic, hybrid, or keep ours</li>
+            <li><strong>Component taxonomy</strong> — adopt the modern hierarchy, hybrid, or keep ours</li>
             <li><strong>Logic placement</strong> — util → store → use-case → composable</li>
             <li><strong>Tokens + Labs</strong> — the design system as running code</li>
           </ol>
@@ -1241,8 +1368,9 @@ flowchart TB
           <aside class="notes">
             جمع‌بندی: شش تصمیم روی میز — و هیچ‌کدام هنوز گرفته نشده. یک: خروج
             از Nuxt به Vue خالص. دو: فریم‌ورک UI — جدول امتیاز به Nuxt UI
-            اشاره می‌کند. سه: چهار لایه‌ی کامپوننت. چهار: نام‌گذاری — اتمیک،
-            ترکیبی یا خودمان. پنج: جای منطق. شش: توکن‌ها و Labs. حالا یکی‌یکی
+            اشاره می‌کند. سه: چهار لایه‌ی کامپوننت. چهار: نام‌گذاری —
+            سلسله‌مراتب مدرن، ترکیبی یا خودمان. پنج: جای منطق. شش: توکن‌ها و
+            Labs. حالا یکی‌یکی
             بحث کنیم و تصمیم بگیریم؛ بعد از تصمیم‌ها: اسکافولد repo، پورت
             tokens.css، اول Labs، بعد اولین ماژول.
           </aside>

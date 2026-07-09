@@ -9,8 +9,9 @@ mode)** to **pure Vue 3 + Vite**:
    presented as a proposal, decided in the meeting.
 2. **Component classification** — our four layers (`Base*` / `App*` / module
    components / screens), the placement decision tree, and a comparison with
-   the industry-standard Atomic Design taxonomy (adopt / hybrid / keep ours —
-   an open decision).
+   the modern component hierarchy (tokens → primitives → composites →
+   patterns → features → pages; adopt / hybrid / keep ours — an open
+   decision).
 3. **Where logic lives** — composables vs Pinia stores vs utils vs module
    use-cases, with the ordering rules and real examples.
 4. **Labs & design tokens** — `tokens.css` as the single source of truth and
