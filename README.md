@@ -3,15 +3,21 @@
 A Reveal.js decision deck about moving our frontend stack from **Nuxt (SPA
 mode)** to **pure Vue 3 + Vite**:
 
-1. **UI framework decision** — Nuxt UI vs Vuetify vs PrimeVue vs shadcn-vue,
-   scored against our use case (pure Vue, RTL/Farsi/Jalali, design tokens,
-   agent-driven development). Verdict: Nuxt UI v4 standalone.
-2. **Component classification** — the four layers (`Base*` / `App*` / module
-   components / screens) and the placement decision tree.
+1. **UI framework** — Nuxt UI vs Vuetify vs PrimeVue vs shadcn-vue, scored
+   against our use case (pure Vue, RTL/Farsi/Jalali, design tokens,
+   agent-driven development). The scorecard favors Nuxt UI v4 standalone —
+   presented as a proposal, decided in the meeting.
+2. **Component classification** — our four layers (`Base*` / `App*` / module
+   components / screens), the placement decision tree, and a comparison with
+   the industry-standard Atomic Design taxonomy (adopt / hybrid / keep ours —
+   an open decision).
 3. **Where logic lives** — composables vs Pinia stores vs utils vs module
    use-cases, with the ordering rules and real examples.
 4. **Labs & design tokens** — `tokens.css` as the single source of truth and
    the Labs screen as the living component catalog.
+
+The deck **defines and compares only** — every decision is made live in the
+team meeting; nothing is pre-decided.
 
 Slides are **English and intentionally low-text**; the full narration and
 storytelling lives in [`STORY.md`](./STORY.md) (**Farsi**), and is mirrored
@@ -51,7 +57,7 @@ every push to `main`. One-time setup:
 
 ```
 .
-├── index.html              # the deck (27 slides, 5 acts)
+├── index.html              # the deck (30 slides, 5 acts)
 ├── styles.css              # theme overrides (all design tokens in :root)
 ├── STORY.md                # Farsi narration & storytelling, per slide
 ├── .claude/skills/deck-authoring/SKILL.md

@@ -418,6 +418,7 @@
 .reveal .layer.violet { --layer-c: var(--violet); }
 .reveal .layer.sky { --layer-c: var(--sky); }
 .reveal .layer.amber { --layer-c: var(--amber); }
+.reveal .layer.rose { --layer-c: var(--rose); }
 
 /* Big verdict banner ----------------------------------------------------------------------- */
 
@@ -438,6 +439,15 @@
   font-weight: 700;
   color: var(--ink);
   margin: 0;
+}
+
+/* neutral variant for decisions that are still open */
+.reveal .verdict.open {
+  border-color: rgba(251, 191, 36, 0.45);
+  background:
+    radial-gradient(circle at 15% 0%, rgba(251, 191, 36, 0.13), transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(167, 139, 250, 0.12), transparent 55%),
+    var(--bg-card);
 }
 
 /* Numbered grid (compact rule lists) ---------------------------------------------------------- */

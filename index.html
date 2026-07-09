@@ -58,13 +58,13 @@
           <p class="eyebrow">frontend stack · decision deck</p>
           <h1>Pure Vue</h1>
           <h3 class="lead" style="font-size: 0.85em">
-            the new stack — and the four decisions behind it
+            the new stack — defined and compared; decided together, today
           </h3>
           <p style="margin-top: 1em">
             <span class="tag">Vue 3.5</span>
             <span class="tag">Vite 6</span>
             <span class="tag">Pinia 3</span>
-            <span class="tag violet">UI framework: decided today</span>
+            <span class="tag violet">every decision: made in this meeting</span>
             <span class="tag">TypeScript max-strict</span>
             <span class="tag">bun</span>
           </p>
@@ -73,9 +73,11 @@
           </p>
           <aside class="notes">
             سلام به همه. امروز درباره‌ی استک جدید فرانت‌اند صحبت می‌کنیم: مهاجرت از
-            Nuxt به Vue خالص. چهار تصمیم اصلی داریم: انتخاب فریم‌ورک UI،
-            طبقه‌بندی کامپوننت‌ها، جای منطق (composable/store/util) و Labs و
-            design tokenها. همه‌چیز با فرض این‌که توسعه‌ی ما agent-driven است.
+            Nuxt به Vue خالص. این ارائه فقط تعریف و مقایسه می‌کند — هیچ تصمیمی
+            از قبل گرفته نشده؛ سر هر بخش همین‌جا بحث و تصمیم‌گیری می‌کنیم.
+            موضوعات: فریم‌ورک UI، طبقه‌بندی کامپوننت‌ها (و مقایسه با استاندارد
+            Atomic)، جای منطق، و Labs و design tokenها. همه با فرض توسعه‌ی
+            agent-driven.
           </aside>
         </section>
 
@@ -229,10 +231,11 @@
         >
           <p class="act">II</p>
           <h1>Choosing the UI framework</h1>
-          <p class="lead">four candidates · six criteria · one verdict</p>
+          <p class="lead">four candidates · six criteria · one open decision</p>
           <aside class="notes">
             پرده‌ی دوم: مهم‌ترین تصمیم امروز. چهار کاندیدا را با شش معیار
-            می‌سنجیم و به یک انتخاب نهایی می‌رسیم.
+            می‌سنجیم، به یک پیشنهاد می‌رسیم — و تصمیم نهایی را همین جلسه
+            با هم می‌گیریم.
           </aside>
         </section>
 
@@ -504,15 +507,16 @@
           </aside>
         </section>
 
-        <!-- 13 · Verdict -->
+        <!-- 13 · Proposal -->
         <section
           data-background-gradient="radial-gradient(circle at 50% 20%, #10231c 0%, #0b0e14 60%)"
         >
-          <h2>The verdict</h2>
+          <h2>The proposal — to decide now, together</h2>
           <div class="verdict">
             <p class="big">Nuxt UI v4 — standalone, on pure Vue</p>
             <p class="lead" style="margin: 0.3em 0 0; font-size: 0.6em">
-              <code>@nuxt/ui/vue-plugin</code> · Reka UI a11y · Tailwind v4 tokens
+              scorecard leader · <code>@nuxt/ui/vue-plugin</code> · Reka UI a11y ·
+              Tailwind v4 tokens
             </p>
           </div>
           <ol class="numbered-grid" style="margin-top: 0.6em">
@@ -523,13 +527,13 @@
             <li><strong>shadcn philosophy kept</strong> — our <code>Base*</code> wrappers own the API surface</li>
           </ol>
           <aside class="notes">
-            حکم نهایی: Nuxt UI نسخه‌ی ۴ در حالت standalone روی Vue خالص.
-            پنج دلیل: یک، همین حالا در front-cp-v2 در production جواب داده.
-            دو، tokens.css ما دقیقاً مدل theming بومی آن است. سه، برای agentها
-            آماده است — مستندات llms.txt و skill رسمی که pin کرده‌ایم. چهار،
-            یک کتابخانه همه‌ی مسیر فرم تا جدول تا نوتیفیکیشن را پوشش می‌دهد.
-            و پنج، فلسفه‌ی shadcn را دور نریخته‌ایم: wrapperهای Base* یعنی
-            سطح API مال ماست و اگر روزی خواستیم، زیرش را عوض می‌کنیم.
+            پیشنهاد ما — نه حکم: Nuxt UI نسخه‌ی ۴ در حالت standalone روی Vue
+            خالص. پنج دلیل: یک، همین حالا در front-cp-v2 در production جواب
+            داده. دو، tokens.css ما دقیقاً مدل theming بومی آن است. سه، برای
+            agentها آماده است — مستندات llms.txt و skill رسمی که pin
+            کرده‌ایم. چهار، یک کتابخانه همه‌ی مسیر فرم تا جدول تا نوتیفیکیشن
+            را پوشش می‌دهد. و پنج، فلسفه‌ی shadcn حفظ شده: wrapperهای Base*
+            یعنی سطح API مال ماست. حالا بحث کنیم و همین‌جا تصمیم بگیریم.
           </aside>
         </section>
 
@@ -542,9 +546,13 @@
         >
           <p class="act">III</p>
           <h1>Components, classified</h1>
-          <p class="lead">four layers · one decision tree · zero ambiguity</p>
+          <p class="lead">
+            our four layers · the Atomic Design standard · migrate or not?
+          </p>
           <aside class="notes">
-            پرده‌ی سوم: طبقه‌بندی کامپوننت‌ها. هدف: هیچ agent و هیچ توسعه‌دهنده‌ای
+            پرده‌ی سوم: طبقه‌بندی کامپوننت‌ها. اول سیستم خودمان، بعد
+            مقایسه با استاندارد صنعت — Atomic Design — و یک تصمیم باز:
+            مهاجرت بکنیم یا نه. هدف نهایی: هیچ agent و هیچ توسعه‌دهنده‌ای
             هرگز نپرسد «این کامپوننت را کجا بسازم؟»
           </aside>
         </section>
@@ -677,9 +685,177 @@ flowchart LR
           </aside>
         </section>
 
+        <!-- 18 · Atomic Design — the industry standard -->
+        <section
+          data-background-gradient="radial-gradient(circle at 75% 25%, #101d2a 0%, #0b0e14 65%)"
+        >
+          <h2>The industry standard — Atomic Design</h2>
+          <p class="lead">
+            Brad Frost, 2013 — the shared vocabulary of big-tech design systems
+          </p>
+          <div class="layers" style="margin-top: 0.4em">
+            <div class="layer">
+              <span class="name">Atoms</span>
+              <span class="desc">
+                <strong>Indivisible primitives</strong> — button, input, label, icon.
+              </span>
+            </div>
+            <div class="layer violet">
+              <span class="name">Molecules</span>
+              <span class="desc">
+                <strong>A few atoms, one job</strong> — search field = label + input + button.
+              </span>
+            </div>
+            <div class="layer sky">
+              <span class="name">Organisms</span>
+              <span class="desc">
+                <strong>Self-contained sections</strong> — header, product grid, sidebar.
+              </span>
+            </div>
+            <div class="layer amber">
+              <span class="name">Templates</span>
+              <span class="desc">
+                <strong>Page skeletons</strong> — layout and slots, no real content.
+              </span>
+            </div>
+            <div class="layer rose">
+              <span class="name">Pages</span>
+              <span class="desc">
+                <strong>Templates with real data</strong> — what users actually see.
+              </span>
+            </div>
+          </div>
+          <p class="lead" style="margin-top: 0.45em; font-size: 0.6em">
+            classifies by <strong>composition</strong>: each level is built from the
+            one below · echoed across Material, Carbon, Lightning, Polaris
+          </p>
+          <aside class="notes">
+            تا این‌جا سیستم خودمان را دیدید؛ سؤال منصفانه: دنیا چه می‌کند؟
+            استاندارد رایج صنعت Atomic Design است — برد فراست، ۲۰۱۳. ایده از
+            شیمی می‌آید: atom ها primitive های تجزیه‌ناپذیرند؛ molecule ترکیب
+            چند atom با یک وظیفه؛ organism بخش خودکفای صفحه؛ template اسکلت
+            بدون محتوا؛ و page همان template با داده‌ی واقعی. این واژگانِ
+            مشترک design system های بزرگ است — از Material گوگل تا Carbon و
+            Lightning و Polaris.
+          </aside>
+        </section>
+
+        <!-- 19 · Atomic vs ours -->
+        <section>
+          <h2>Atomic vs ours — a different axis</h2>
+          <table style="width: 100%">
+            <thead>
+              <tr>
+                <th>Atomic level</th>
+                <th>Our equivalent</th>
+                <th>Match?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Atoms</td>
+                <td><code>Base*</code> primitives — <code>BaseInput</code>, <code>BaseChip</code></td>
+                <td>≈ direct</td>
+              </tr>
+              <tr>
+                <td>Molecules</td>
+                <td><code>Base*</code> composites — <code>BaseDatePicker</code>, <code>BaseServerDataTable</code></td>
+                <td>≈ we don't split these two levels</td>
+              </tr>
+              <tr>
+                <td>Organisms</td>
+                <td><code>App*</code> shell + module components</td>
+                <td>≈ but we also split by <strong>ownership</strong></td>
+              </tr>
+              <tr>
+                <td>Templates</td>
+                <td><code>layouts/</code> — default, auth, blank</td>
+                <td>≈ direct</td>
+              </tr>
+              <tr>
+                <td>Pages</td>
+                <td>screens (smart) + <code>pages/</code> routes</td>
+                <td>⚠ atomic has no smart/dumb rule</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="grid-2" style="margin-top: 0.5em">
+            <div class="card sky">
+              <h3>Atomic's axis</h3>
+              <p>
+                <strong>Composition granularity</strong> — "how big is it?"
+                Designer-first vocabulary.
+              </p>
+            </div>
+            <div class="card violet">
+              <h3>Our axis</h3>
+              <p>
+                <strong>Ownership &amp; data access</strong> — "who may import it,
+                may it fetch?" Agent-first guardrails.
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            نگاشت تقریباً یک‌به‌یک وجود دارد: atom و molecule هر دو در Base*
+            ما هستند — ما این دو سطح را جدا نکرده‌ایم؛ organism معادل App* و
+            کامپوننت‌های ماژول است اما ما مالکیت را هم جدا می‌کنیم؛ template
+            همان layout ماست و page همان screen به‌علاوه‌ی route. تفاوت اصلی
+            محور است: اتمیک بر اساس اندازه‌ی ترکیب دسته‌بندی می‌کند و
+            طراح‌محور است؛ سیستم ما بر اساس مالکیت و دسترسی به داده — و برای
+            agent ها ساخته شده. اتمیک درباره‌ی smart/dumb، ایزوله بودن
+            ماژول‌ها و جای fetch حرفی نمی‌زند.
+          </aside>
+        </section>
+
+        <!-- 20 · Migrate or not — open decision -->
+        <section
+          data-background-gradient="radial-gradient(circle at 25% 75%, #241a10 0%, #0b0e14 65%)"
+        >
+          <h2>Adopt it? — a decision for this meeting</h2>
+          <div class="grid-2" style="margin-top: 0.4em">
+            <div class="card">
+              <h3>Migration path — if yes</h3>
+              <ul>
+                <li>Split <code>shared/ui/base</code> → <code>atoms/</code> + <code>molecules/</code></li>
+                <li>Shell + module components → <code>organisms/</code></li>
+                <li><code>layouts/</code> = templates · screens = pages — already 1:1</li>
+                <li>Update rules, skills, lint zones — agents relearn <strong>once</strong></li>
+              </ul>
+            </div>
+            <div class="card violet">
+              <h3>Does it answer our use case?</h3>
+              <ul>
+                <li><strong>Gives:</strong> designer-shared vocabulary, Figma alignment, familiar onboarding</li>
+                <li><strong>Misses:</strong> data-access rules, module isolation, smart/dumb — our real guardrails</li>
+                <li><strong>Net:</strong> a naming layer, not an architecture — our rules stay either way</li>
+              </ul>
+            </div>
+          </div>
+          <div class="verdict open" style="margin-top: 0.55em">
+            <p class="big" style="font-size: 1em">
+              Open — adopt Atomic · hybrid · keep ours
+            </p>
+            <p class="lead" style="margin: 0.25em 0 0; font-size: 0.6em">
+              hybrid = keep the four layers, speak Atomic vocabulary in Labs &amp; Figma
+            </p>
+          </div>
+          <aside class="notes">
+            اگر مهاجرت کنیم مسیر روشن است: base به atoms و molecules تقسیم
+            می‌شود؛ پوسته و کامپوننت‌های ماژول organism می‌شوند؛ layout ها
+            همین حالا template اند و screen ها page — نگاشت تقریباً یک‌به‌یک
+            است و هزینه‌ی اصلی به‌روزکردن rule ها و skill ها و zone های lint
+            است. اما آیا به use case ما جواب می‌دهد؟ می‌دهد: واژگان مشترک با
+            طراح‌ها و Figma و onboarding آشنا. نمی‌دهد: قواعد دسترسی به داده،
+            ایزوله بودن ماژول و smart/dumb — یعنی guardrail های واقعی ما.
+            جمع‌بندی برای بحث: اتمیک بیشتر لایه‌ی نام‌گذاری است تا معماری.
+            سه گزینه: مهاجرت کامل، حالت ترکیبی (لایه‌های خودمان + واژگان
+            اتمیک در Labs و Figma)، یا ماندن. همین‌جا تصمیم بگیریم.
+          </aside>
+        </section>
+
         <!-- ═══════════════ ACT IV · LOGIC ═══════════════ -->
 
-        <!-- 18 · Act IV divider -->
+        <!-- 21 · Act IV divider -->
         <section
           class="part-divider"
           data-background-gradient="radial-gradient(circle at 50% 40%, #241a10 0%, #0b0e14 65%)"
@@ -693,7 +869,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 19 · Three homes for logic -->
+        <!-- 22 · Three homes for logic -->
         <section>
           <h2>Three homes, one rule each</h2>
           <div class="grid-3" style="margin-top: 0.5em">
@@ -743,7 +919,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 20 · Logic decision tree -->
+        <!-- 23 · Logic decision tree -->
         <section>
           <h2>Which one? Ask in order</h2>
           <pre class="mermaid">
@@ -788,7 +964,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 21 · Real examples -->
+        <!-- 24 · Real examples -->
         <section
           data-background-gradient="radial-gradient(circle at 80% 60%, #101d2a 0%, #0b0e14 65%)"
         >
@@ -845,7 +1021,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 22 · Anti-patterns -->
+        <!-- 25 · Anti-patterns -->
         <section>
           <h2>Instant review rejections</h2>
           <div class="grid-2x2" style="margin-top: 0.5em">
@@ -878,7 +1054,7 @@ flowchart LR
 
         <!-- ═══════════════ ACT V · LABS & TOKENS ═══════════════ -->
 
-        <!-- 23 · Act V divider -->
+        <!-- 26 · Act V divider -->
         <section
           class="part-divider"
           data-background-gradient="radial-gradient(circle at 50% 40%, #10231c 0%, #0b0e14 65%)"
@@ -892,7 +1068,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 24 · Design tokens -->
+        <!-- 27 · Design tokens -->
         <section>
           <h2>Design tokens — one source, every surface</h2>
           <div class="swatch-row">
@@ -931,7 +1107,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 25 · The Labs screen -->
+        <!-- 28 · The Labs screen -->
         <section
           data-background-gradient="radial-gradient(circle at 30% 30%, #171331 0%, #0b0e14 65%)"
         >
@@ -981,7 +1157,7 @@ flowchart LR
 
         <!-- ═══════════════ CLOSE ═══════════════ -->
 
-        <!-- 26 · Agents enforce it -->
+        <!-- 29 · Agents enforce it -->
         <section>
           <h2>None of this relies on memory</h2>
           <div class="grid-2" style="grid-template-columns: 1fr 1.1fr; align-items: center">
@@ -1013,8 +1189,8 @@ flowchart TB
             </pre>
             <ul style="font-size: 0.72em">
               <li style="margin-bottom: 0.7em">
-                Every decision today becomes a <strong>rule or skill</strong>,
-                not a wiki page
+                Every decision <strong>this meeting makes</strong> becomes a
+                <strong>rule or skill</strong>, not a wiki page
               </li>
               <li style="margin-bottom: 0.7em">
                 Component / composable / store each get an
@@ -1028,8 +1204,9 @@ flowchart TB
           </div>
           <aside class="notes">
             و نخ تسبیح همه‌ی این‌ها: هیچ‌کدام به حافظه‌ی آدم‌ها تکیه ندارد.
-            هر تصمیمی که امروز گرفتیم — انتخاب فریم‌ورک، لایه‌های کامپوننت،
-            درخت تصمیم منطق، قانون Labs — به‌شکل rule و skill کدنویسی می‌شود.
+            هر تصمیمی که در این جلسه بگیریم — فریم‌ورک، لایه‌های کامپوننت،
+            نام‌گذاری اتمیک یا خودمان، درخت تصمیم منطق، قانون Labs — به‌شکل
+            rule و skill کدنویسی می‌شود.
             برای هر نوع artifact یک skill نویسندگی داریم؛ فایل‌های generate
             شده محافظت می‌شوند؛ و hook ها پایان کار را gate می‌کنند: lint،
             typecheck، تست، data-test و هر دو زبان. agent بعدی و همکار بعدی
@@ -1037,32 +1214,37 @@ flowchart TB
           </aside>
         </section>
 
-        <!-- 27 · Recap -->
+        <!-- 30 · Recap -->
         <section
           class="title"
           data-background-gradient="radial-gradient(circle at 25% 25%, #10231c 0%, #0b0e14 55%), radial-gradient(circle at 80% 75%, #171331 0%, #0b0e14 60%)"
         >
-          <h2 style="text-align: center">Five decisions</h2>
+          <h2 style="text-align: center">Six decisions — on the table</h2>
+          <p class="lead" style="text-align: center; font-size: 0.62em; margin-top: -0.3em">
+            defined and compared above · nothing is final until we've talked
+          </p>
           <ol class="numbered-grid" style="margin-top: 0.6em; text-align: left">
-            <li><strong>Pure Vue + Vite</strong> — explicit over magic</li>
-            <li><strong>Nuxt UI v4 standalone</strong> — tokens, RTL, agent-ready</li>
+            <li><strong>Pure Vue + Vite</strong> — leave Nuxt for explicit over magic?</li>
+            <li><strong>UI framework</strong> — scorecard favors Nuxt UI v4 standalone</li>
             <li><strong>Four component layers</strong> — Base* / App* / module / screen</li>
-            <li><strong>Logic decision tree</strong> — util → store → use-case → composable</li>
-            <li><strong>Tokens + Labs</strong> — the design system is running code</li>
+            <li><strong>Component taxonomy</strong> — adopt Atomic, hybrid, or keep ours</li>
+            <li><strong>Logic placement</strong> — util → store → use-case → composable</li>
+            <li><strong>Tokens + Labs</strong> — the design system as running code</li>
           </ol>
-          <p class="lead" style="margin-top: 0.9em; font-size: 0.65em">
-            next: scaffold the repo · port <code>tokens.css</code> · build Labs first ·
-            then the first module
+          <p class="lead" style="margin-top: 0.8em; font-size: 0.65em">
+            once decided: scaffold the repo · port <code>tokens.css</code> · build Labs
+            first · then the first module
           </p>
           <p style="margin-top: 0.7em">
             <span class="tag mono">STORY.md — full narration (fa)</span>
           </p>
           <aside class="notes">
-            جمع‌بندی: پنج تصمیم. Vue خالص با Vite — صراحت به‌جای جادو. Nuxt UI
-            چهار به‌صورت standalone. چهار لایه‌ی کامپوننت. درخت تصمیم منطق. و
-            توکن‌ها به‌علاوه‌ی Labs به‌عنوان design system زنده. قدم‌های بعدی:
-            اسکافولد repo، پورت tokens.css، اول Labs، بعد اولین ماژول.
-            سؤال‌ها؟
+            جمع‌بندی: شش تصمیم روی میز — و هیچ‌کدام هنوز گرفته نشده. یک: خروج
+            از Nuxt به Vue خالص. دو: فریم‌ورک UI — جدول امتیاز به Nuxt UI
+            اشاره می‌کند. سه: چهار لایه‌ی کامپوننت. چهار: نام‌گذاری — اتمیک،
+            ترکیبی یا خودمان. پنج: جای منطق. شش: توکن‌ها و Labs. حالا یکی‌یکی
+            بحث کنیم و تصمیم بگیریم؛ بعد از تصمیم‌ها: اسکافولد repo، پورت
+            tokens.css، اول Labs، بعد اولین ماژول.
           </aside>
         </section>
       </div>
