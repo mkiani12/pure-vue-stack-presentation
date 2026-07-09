@@ -1,0 +1,523 @@
+/* Theme overrides on top of Reveal.js black.css.
+   1280×720 logical canvas → 1.5× scale on 1920×1080 displays.
+   All design tokens live here — slides reference var(--…), never raw hex. */
+
+:root {
+  /* palette */
+  --vue: #42d392;
+  --vue-deep: #34b57b;
+  --violet: #a78bfa;
+  --sky: #7dd3fc;
+  --amber: #fbbf24;
+  --rose: #fb7185;
+
+  /* surfaces */
+  --bg: #0b0e14;
+  --bg-raise: #11141c;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hi: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-hi: rgba(255, 255, 255, 0.18);
+
+  /* ink */
+  --ink: #eef1f6;
+  --ink-dim: #9aa3b2;
+  --ink-mute: #5d6575;
+}
+
+/* Typography ------------------------------------------------------------- */
+
+.reveal {
+  font-size: 32px;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  color: var(--ink);
+  letter-spacing: 0;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+  font-family: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  color: var(--ink);
+  margin: 0 0 0.5em 0;
+}
+
+.reveal h1 {
+  font-size: 2em;
+  background: linear-gradient(120deg, #ffffff 10%, var(--vue) 55%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.reveal h2 {
+  font-size: 1.4em;
+  background: linear-gradient(120deg, #ffffff 20%, var(--vue) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.reveal h3 {
+  font-size: 1em;
+  color: var(--vue);
+}
+
+.reveal .slides {
+  text-align: left;
+}
+.reveal section {
+  padding: 0 0.6em;
+}
+.reveal section.title {
+  text-align: center;
+  padding-top: 3.2em;
+}
+.reveal section.part-divider {
+  padding-top: 2.2em;
+}
+
+.reveal p,
+.reveal li {
+  font-size: 0.82em;
+  line-height: 1.5;
+  color: var(--ink-dim);
+}
+.reveal strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.reveal .accent {
+  color: var(--vue);
+}
+.reveal a {
+  color: var(--sky);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(125, 211, 252, 0.4);
+}
+.reveal a:hover {
+  color: var(--vue);
+  border-color: var(--vue);
+}
+.reveal ul,
+.reveal ol {
+  margin-left: 1em;
+}
+.reveal li + li {
+  margin-top: 0.25em;
+}
+
+.reveal code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.92em;
+  color: var(--sky);
+  background: rgba(125, 211, 252, 0.08);
+  padding: 0.05em 0.35em;
+  border-radius: 6px;
+}
+
+.reveal pre {
+  width: 100%;
+  font-size: 0.46em;
+  line-height: 1.55;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+  margin: 0.4em 0;
+}
+.reveal pre code {
+  padding: 1em 1.2em;
+  border-radius: 14px;
+  max-height: 480px;
+  background: #0d1017;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Mermaid ------------------------------------------------------------------ */
+
+.reveal pre.mermaid {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  font-size: 0.6em;
+}
+.reveal pre.mermaid svg {
+  max-height: 560px;
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.5));
+}
+/* Mermaid sizes each label's foreignObject to the measured text width and
+   clips the last glyph on rounding; letting it overflow is invisible harm. */
+.reveal pre.mermaid svg foreignObject {
+  overflow: visible;
+}
+
+/* Tables ------------------------------------------------------------------- */
+
+.reveal table {
+  font-size: 0.55em;
+  margin: 0.4em auto 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.reveal table th {
+  color: var(--vue);
+  background: var(--bg-card-hi);
+  border-bottom: 1px solid var(--border);
+  padding: 0.5em 0.75em;
+  font-weight: 600;
+  text-align: left;
+}
+.reveal table td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.42em 0.75em;
+  vertical-align: middle;
+  color: var(--ink-dim);
+}
+.reveal table tr:last-child td {
+  border-bottom: none;
+}
+.reveal table tr:hover td {
+  color: var(--ink);
+  background: var(--bg-card);
+}
+
+/* Layout helpers ------------------------------------------------------------ */
+
+.reveal .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8em;
+}
+.reveal .grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6em;
+}
+.reveal .grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.55em;
+}
+.reveal .grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7em;
+}
+
+/* Cards ---------------------------------------------------------------------- */
+
+.reveal .card {
+  position: relative;
+  background: linear-gradient(165deg, var(--bg-card-hi) 0%, var(--bg-card) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 0.7em 0.85em;
+  backdrop-filter: blur(6px);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.reveal .card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-hi);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+.reveal .card h3 {
+  margin: 0 0 0.35em 0;
+  font-size: 0.78em;
+  color: var(--vue);
+}
+.reveal .card p,
+.reveal .card li {
+  font-size: 0.62em;
+  line-height: 1.45;
+  color: var(--ink-dim);
+}
+.reveal .card ul {
+  margin: 0 0 0 1em;
+}
+.reveal .card.violet h3 { color: var(--violet); }
+.reveal .card.sky h3 { color: var(--sky); }
+.reveal .card.amber h3 { color: var(--amber); }
+.reveal .card.rose h3 { color: var(--rose); }
+
+/* colored top edge for framework cards */
+.reveal .card.edge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--edge, var(--vue)), transparent);
+}
+.reveal .card.edge.violet { --edge: var(--violet); }
+.reveal .card.edge.sky { --edge: var(--sky); }
+.reveal .card.edge.amber { --edge: var(--amber); }
+.reveal .card.edge.rose { --edge: var(--rose); }
+
+/* Tags ----------------------------------------------------------------------- */
+
+.reveal .tag {
+  display: inline-block;
+  padding: 0.2em 0.7em;
+  margin: 0.18em 0.2em 0.18em 0;
+  border-radius: 999px;
+  background: rgba(66, 211, 146, 0.08);
+  color: var(--vue);
+  border: 1px solid rgba(66, 211, 146, 0.35);
+  font-size: 0.52em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.reveal .tag.violet {
+  background: rgba(167, 139, 250, 0.08);
+  color: var(--violet);
+  border-color: rgba(167, 139, 250, 0.35);
+}
+.reveal .tag.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Lead / eyebrow --------------------------------------------------------------- */
+
+.reveal .lead {
+  color: var(--ink-dim);
+  font-size: 0.75em;
+}
+.reveal .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--vue);
+  font-size: 0.5em;
+  font-weight: 600;
+  margin-bottom: 0.6em;
+}
+
+/* Part dividers ----------------------------------------------------------------- */
+
+.reveal section.part-divider {
+  text-align: center;
+}
+.reveal section.part-divider .act {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 5.2em;
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(160deg, rgba(66, 211, 146, 0.55), rgba(167, 139, 250, 0.25));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+.reveal section.part-divider h1 {
+  font-size: 2.1em;
+  margin: 0.15em 0 0.25em;
+}
+.reveal section.part-divider .lead {
+  font-size: 0.8em;
+}
+
+/* Scorecard dots ------------------------------------------------------------------ */
+
+.reveal .dots {
+  display: inline-flex;
+  gap: 0.28em;
+  vertical-align: middle;
+}
+.reveal .dots i {
+  width: 0.62em;
+  height: 0.62em;
+  border-radius: 50%;
+  border: 1px solid var(--ink-mute);
+  background: transparent;
+}
+.reveal .dots i.on {
+  background: var(--vue);
+  border-color: var(--vue);
+  box-shadow: 0 0 8px rgba(66, 211, 146, 0.55);
+}
+.reveal .dots.warn i.on {
+  background: var(--amber);
+  border-color: var(--amber);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+}
+.reveal .dots.bad i.on {
+  background: var(--rose);
+  border-color: var(--rose);
+  box-shadow: 0 0 8px rgba(251, 113, 133, 0.5);
+}
+.reveal td.win {
+  background: rgba(66, 211, 146, 0.07);
+}
+
+/* Token swatches -------------------------------------------------------------------- */
+
+.reveal .swatch-row {
+  display: flex;
+  gap: 0.35em;
+  margin: 0.3em 0;
+}
+.reveal .swatch {
+  flex: 1;
+  height: 2.1em;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+}
+.reveal .swatch span {
+  position: absolute;
+  bottom: 0.25em;
+  left: 0.45em;
+  font-size: 0.42em;
+  font-family: 'JetBrains Mono', monospace;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+.reveal .swatch.light span {
+  color: rgba(20, 20, 30, 0.75);
+  text-shadow: none;
+}
+
+/* Layer stack (component classification) ----------------------------------------------- */
+
+.reveal .layers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+  margin-top: 0.5em;
+}
+.reveal .layer {
+  display: grid;
+  grid-template-columns: 11em 1fr;
+  align-items: center;
+  gap: 0.9em;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--layer-c, var(--vue));
+  border-radius: 12px;
+  background: var(--bg-card);
+  padding: 0.5em 0.9em;
+}
+.reveal .layer .name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72em;
+  color: var(--layer-c, var(--vue));
+  font-weight: 600;
+}
+.reveal .layer .desc {
+  font-size: 0.6em;
+  color: var(--ink-dim);
+  line-height: 1.4;
+}
+.reveal .layer.violet { --layer-c: var(--violet); }
+.reveal .layer.sky { --layer-c: var(--sky); }
+.reveal .layer.amber { --layer-c: var(--amber); }
+
+/* Big verdict banner ----------------------------------------------------------------------- */
+
+.reveal .verdict {
+  margin: 0.4em auto;
+  padding: 0.7em 1.1em;
+  border-radius: 18px;
+  border: 1px solid rgba(66, 211, 146, 0.45);
+  background:
+    radial-gradient(circle at 15% 0%, rgba(66, 211, 146, 0.16), transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(167, 139, 250, 0.14), transparent 55%),
+    var(--bg-card);
+  text-align: center;
+}
+.reveal .verdict .big {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5em;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Numbered grid (compact rule lists) ---------------------------------------------------------- */
+
+.reveal ol.numbered-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5em 1.4em;
+  counter-reset: n;
+}
+.reveal ol.numbered-grid li {
+  counter-increment: n;
+  position: relative;
+  padding-left: 2em;
+  font-size: 0.68em;
+  line-height: 1.45;
+}
+.reveal ol.numbered-grid li::before {
+  content: counter(n, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  color: var(--vue);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Anti-pattern strip ----------------------------------------------------------------------------- */
+
+.reveal .no {
+  border-color: rgba(251, 113, 133, 0.35);
+}
+.reveal .no h3 {
+  color: var(--rose);
+}
+.reveal .no h3::before {
+  content: '✕ ';
+}
+
+/* Chrome ------------------------------------------------------------------------------------------- */
+
+.reveal .footer {
+  position: fixed;
+  bottom: 0.6em;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: var(--ink-mute);
+  font-size: 0.55em;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+  z-index: 1;
+}
+.reveal .slide-number {
+  background: transparent;
+  color: var(--ink-mute);
+  font-size: 0.55em;
+  bottom: 0.6em;
+  right: 1em;
+}
+.reveal .progress {
+  color: var(--vue);
+  height: 3px;
+}
+.reveal .controls {
+  color: var(--violet);
+}
+
+/* Fragments ------------------------------------------------------------------------------------------ */
+
+.reveal .fragment.fade-up {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.reveal .fragment.fade-up.visible {
+  opacity: 1;
+  transform: none;
+}

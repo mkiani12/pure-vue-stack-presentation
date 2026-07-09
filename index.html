@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta
+      name="description"
+      content="Pure Vue — the new stack. Leaving Nuxt for Vue 3 + Vite: UI framework decision (Nuxt UI vs Vuetify vs PrimeVue vs shadcn-vue), component classification, composables/stores/utils, Labs & design tokens — agent-driven."
+    />
+    <title>Pure Vue · the new stack</title>
+
+    <!-- empty data URI suppresses the favicon 404 without shipping a binary -->
+    <link rel="icon" href="data:," />
+
+    <!-- Webfonts (bunny.net = CDN-only, GDPR-friendly Google Fonts mirror) -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.bunny.net/css?family=inter:400,500,600|space-grotesk:500,700|jetbrains-mono:400,500"
+    />
+
+    <!-- Reveal.js core + black theme + monokai for code highlighting (CDN) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css"
+      id="theme"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css"
+      id="highlight-theme"
+    />
+
+    <!-- Local overrides -->
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ═══════════════ COLD OPEN ═══════════════ -->
+
+        <!-- 1 · Title -->
+        <section
+          class="title"
+          data-background-gradient="radial-gradient(circle at 25% 25%, #10231c 0%, #0b0e14 55%), radial-gradient(circle at 80% 75%, #171331 0%, #0b0e14 60%)"
+        >
+          <p class="eyebrow">frontend stack · decision deck</p>
+          <h1>Pure Vue</h1>
+          <h3 class="lead" style="font-size: 0.85em">
+            the new stack — and the four decisions behind it
+          </h3>
+          <p style="margin-top: 1em">
+            <span class="tag">Vue 3.5</span>
+            <span class="tag">Vite 6</span>
+            <span class="tag">Pinia 3</span>
+            <span class="tag violet">UI framework: decided today</span>
+            <span class="tag">TypeScript max-strict</span>
+            <span class="tag">bun</span>
+          </p>
+          <p class="lead" style="margin-top: 1.2em; font-size: 0.6em">
+            agent-driven from day one · narration in <code>STORY.md</code>
+          </p>
+          <aside class="notes">
+            سلام به همه. امروز درباره‌ی استک جدید فرانت‌اند صحبت می‌کنیم: مهاجرت از
+            Nuxt به Vue خالص. چهار تصمیم اصلی داریم: انتخاب فریم‌ورک UI،
+            طبقه‌بندی کامپوننت‌ها، جای منطق (composable/store/util) و Labs و
+            design tokenها. همه‌چیز با فرض این‌که توسعه‌ی ما agent-driven است.
+          </aside>
+        </section>
+
+        <!-- 2 · Why we're leaving Nuxt -->
+        <section
+          data-background-gradient="radial-gradient(circle at 80% 20%, #241318 0%, #0b0e14 60%)"
+        >
+          <h2>Why we're leaving Nuxt</h2>
+          <p class="lead">we ran Nuxt with SSR off — a server framework as a router</p>
+          <div class="grid-2" style="margin-top: 0.5em">
+            <div class="card">
+              <h3>What we actually used</h3>
+              <ul>
+                <li>File-based routing</li>
+                <li>Plugins &amp; layouts</li>
+                <li>Auto-imports</li>
+                <li><code>$fetch</code> wrapper</li>
+              </ul>
+            </div>
+            <div class="card rose">
+              <h3>What we paid for it</h3>
+              <ul>
+                <li>SSR machinery we never render</li>
+                <li>Magic that agents must guess</li>
+                <li>Major-version upgrade treadmill</li>
+                <li>Debugging through abstraction layers</li>
+              </ul>
+            </div>
+          </div>
+          <p class="lead fragment fade-up" style="margin-top: 0.6em">
+            Everything in the left column exists as a
+            <strong>small, explicit Vue library</strong>.
+          </p>
+          <aside class="notes">
+            ما Nuxt را همیشه در حالت SPA اجرا می‌کردیم — یعنی یک فریم‌ورک سروری
+            که فقط به عنوان روتر استفاده می‌شد. چیزهایی که واقعاً استفاده
+            می‌کردیم چهار قابلیت ساده است و همه‌شان معادل صریح و سبک در
+            اکوسیستم Vue دارند. در عوض هزینه‌ی جادوی framework، آپگریدهای بزرگ
+            و دیباگ لایه‌به‌لایه را می‌دادیم. برای agentها هم «جادو» یعنی
+            حدس‌زدن — و حدس یعنی باگ.
+          </aside>
+        </section>
+
+        <!-- ═══════════════ ACT I · FOUNDATION ═══════════════ -->
+
+        <!-- 3 · Act I divider -->
+        <section
+          class="part-divider"
+          data-background-gradient="radial-gradient(circle at 50% 40%, #10231c 0%, #0b0e14 65%)"
+        >
+          <p class="act">I</p>
+          <h1>The foundation</h1>
+          <p class="lead">every Nuxt feature, replaced by something you can read</p>
+          <aside class="notes">
+            پرده‌ی اول: پایه. نشان می‌دهیم هر قابلیت Nuxt با چه چیز جایگزین
+            می‌شود — جایگزین‌هایی که کد‌شان قابل خواندن و قابل دیباگ است.
+          </aside>
+        </section>
+
+        <!-- 4 · Replacement map -->
+        <section>
+          <h2>Nuxt → pure Vue, feature by feature</h2>
+          <table style="width: 100%">
+            <thead>
+              <tr>
+                <th>Nuxt gave us</th>
+                <th>Pure Vue answer</th>
+                <th>Character</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>File-based routing</td>
+                <td><code>unplugin-vue-router</code></td>
+                <td>same DX + fully typed routes</td>
+              </tr>
+              <tr>
+                <td>Plugins</td>
+                <td><code>src/app/plugins/*.ts</code></td>
+                <td>explicit install order, plain functions</td>
+              </tr>
+              <tr>
+                <td>Route middleware</td>
+                <td>vue-router navigation guards</td>
+                <td>one guard file, no convention magic</td>
+              </tr>
+              <tr>
+                <td>Layouts</td>
+                <td><code>LayoutHost</code> + <code>layouts/</code></td>
+                <td>a 30-line component we own</td>
+              </tr>
+              <tr>
+                <td>Auto-imports</td>
+                <td>explicit imports</td>
+                <td>agents and reviewers see every dependency</td>
+              </tr>
+              <tr>
+                <td><code>$fetch</code> / <code>useFetch</code></td>
+                <td><code>ofetch</code> → <code>useCustomFetch</code></td>
+                <td>same lib, our auth/retry policy</td>
+              </tr>
+              <tr>
+                <td><code>runtimeConfig</code></td>
+                <td><code>import.meta.env</code> + <code>config/runtime.ts</code></td>
+                <td>typed, build-time checked</td>
+              </tr>
+            </tbody>
+          </table>
+          <aside class="notes">
+            این نقشه‌ی مهاجرت است. روتینگ فایل‌محور را unplugin-vue-router
+            می‌دهد، حتی بهتر: با typeهای کامل مسیرها. پلاگین‌ها توابع ساده با
+            ترتیب نصب صریح می‌شوند. middleware همان guard روتر است.
+            auto-import را عمداً کنار می‌گذاریم — import صریح یعنی agent
+            دقیقاً می‌داند هر فایل به چه چیزی وابسته است. و ofetch همان کتابخانه‌ی
+            زیر $fetch است؛ فقط wrapper خودمان را دورش می‌کشیم.
+          </aside>
+        </section>
+
+        <!-- 5 · The stack wall -->
+        <section
+          data-background-gradient="radial-gradient(circle at 30% 70%, #101d2a 0%, #0b0e14 65%)"
+        >
+          <h2>The stack</h2>
+          <div class="grid-4" style="margin-top: 0.6em">
+            <div class="card edge"><h3>Vue 3.5</h3><p>Composition API, <code>&lt;script setup&gt;</code></p></div>
+            <div class="card edge violet"><h3>Vite 6</h3><p>instant dev server, plain config</p></div>
+            <div class="card edge sky"><h3>Pinia 3</h3><p>stores + persistedstate</p></div>
+            <div class="card edge amber"><h3>vue-router 4</h3><p>+ typed file routes</p></div>
+            <div class="card edge violet"><h3>vue-i18n 10</h3><p>fa / en · RTL first</p></div>
+            <div class="card edge sky"><h3>VeeValidate + Zod</h3><p>schema-typed forms</p></div>
+            <div class="card edge amber"><h3>TS max-strict</h3><p><code>noUncheckedIndexedAccess</code>, no <code>any</code></p></div>
+            <div class="card edge"><h3>bun</h3><p>install + scripts, in Docker</p></div>
+          </div>
+          <p class="lead" style="margin-top: 0.6em; text-align: center; font-size: 0.62em">
+            proven in production — this is the <code>front-cp-v2</code> stack
+          </p>
+          <aside class="notes">
+            استک کامل این است. نکته‌ی مهم: این لیست تئوری نیست — دقیقاً همان
+            چیزی است که در front-cp-v2 در production اجرا می‌شود. TypeScript
+            در سخت‌گیرترین حالت، فرم‌ها با Zod schema تایپ می‌شوند، و i18n از
+            روز اول دو زبانه و RTL-first است.
+          </aside>
+        </section>
+
+        <!-- ═══════════════ ACT II · UI FRAMEWORK ═══════════════ -->
+
+        <!-- 6 · Act II divider -->
+        <section
+          class="part-divider"
+          data-background-gradient="radial-gradient(circle at 50% 40%, #171331 0%, #0b0e14 65%)"
+        >
+          <p class="act">II</p>
+          <h1>Choosing the UI framework</h1>
+          <p class="lead">four candidates · six criteria · one verdict</p>
+          <aside class="notes">
+            پرده‌ی دوم: مهم‌ترین تصمیم امروز. چهار کاندیدا را با شش معیار
+            می‌سنجیم و به یک انتخاب نهایی می‌رسیم.
+          </aside>
+        </section>
+
+        <!-- 7 · Decision criteria -->
+        <section>
+          <h2>Our use case = our criteria</h2>
+          <div class="grid-3" style="margin-top: 0.5em">
+            <div class="card">
+              <h3>Pure-Vue first-class</h3>
+              <p>Must work without Nuxt — no half-supported mode.</p>
+            </div>
+            <div class="card violet">
+              <h3>RTL · Farsi · Jalali</h3>
+              <p>RTL layouts, Persian digits, Jalali dates — not an afterthought.</p>
+            </div>
+            <div class="card sky">
+              <h3>Design-token theming</h3>
+              <p>CSS-variable tokens that map 1:1 to Figma.</p>
+            </div>
+            <div class="card amber">
+              <h3>Component depth</h3>
+              <p>Data table, date picker, uploads, overlays — the boring 80%.</p>
+            </div>
+            <div class="card violet">
+              <h3>TS + a11y quality</h3>
+              <p>Typed props/slots, ARIA correctness out of the box.</p>
+            </div>
+            <div class="card">
+              <h3>Agent-friendliness</h3>
+              <p>LLM-readable docs, predictable APIs, official skills.</p>
+            </div>
+          </div>
+          <p class="lead fragment fade-up" style="margin-top: 0.55em; font-size: 0.65em">
+            The last one is new — and it's a <strong>first-class criterion</strong>,
+            because agents write most of our UI code.
+          </p>
+          <aside class="notes">
+            قبل از مقایسه باید معیار داشته باشیم. پنج‌تای اول کلاسیک‌اند: کار
+            بدون Nuxt، پشتیبانی واقعی RTL و تقویم جلالی، توکن‌های طراحی مبتنی بر
+            CSS variable که با Figma یک‌به‌یک map شوند، عمق کامپوننت‌ها، و کیفیت
+            TypeScript و دسترس‌پذیری. معیار ششم جدید است: agent-friendliness.
+            وقتی بیشترِ کد UI را agent می‌نویسد، مستندات قابل‌خواندن برای LLM و
+            API قابل‌پیش‌بینی دیگر «امتیاز مثبت» نیست — معیار درجه‌یک است.
+          </aside>
+        </section>
+
+        <!-- 8 · Candidate: Nuxt UI -->
+        <section
+          data-background-gradient="radial-gradient(circle at 20% 30%, #10231c 0%, #0b0e14 60%)"
+        >
+          <h2>Candidate 1 · Nuxt UI v4</h2>
+          <p class="lead">Reka UI primitives + Tailwind CSS v4 — despite the name, a Vue library</p>
+          <div class="grid-2" style="margin-top: 0.4em">
+            <div class="card">
+              <h3>Strengths</h3>
+              <ul>
+                <li>Standalone Vue via official Vite plugin</li>
+                <li>Theming <em>is</em> Tailwind <code>@theme</code> tokens</li>
+                <li>v4 merged Pro — 100+ components, free</li>
+                <li>50+ locales, RTL supported</li>
+                <li><code>llms.txt</code> docs + official agent skill</li>
+              </ul>
+            </div>
+            <div class="card amber">
+              <h3>Watch out</h3>
+              <ul>
+                <li>Commits us to Tailwind utilities</li>
+                <li>Younger than Vuetify / PrimeVue</li>
+                <li>Name confuses newcomers — docs say Vue-ready</li>
+              </ul>
+            </div>
+          </div>
+          <p class="lead" style="margin-top: 0.5em; font-size: 0.62em">
+            already running in <code>front-cp-v2</code> production
+          </p>
+          <aside class="notes">
+            کاندیدای اول: Nuxt UI نسخه‌ی ۴. اسمش گمراه‌کننده است — روی Reka UI
+            و Tailwind ساخته شده و رسماً بدون Nuxt، با یک Vite plugin در Vue
+            خالص کار می‌کند. مدل theming آن دقیقاً همان design token است:
+            Tailwind @theme و CSS variableها. نسخه‌ی ۴ کامپوننت‌های Pro را هم
+            رایگان کرد. مستندات llms.txt دارد و skill رسمی‌اش را هم در
+            skills-lock پروژه pin کرده‌ایم. ریسک‌ها: وابستگی به Tailwind و
+            جوان‌تر بودن نسبت به رقبا. و مهم‌تر از همه: الان در production ما
+            واقعاً کار می‌کند.
+          </aside>
+        </section>
+
+        <!-- 9 · Candidate: Vuetify -->
+        <section>
+          <h2>Candidate 2 · Vuetify 4</h2>
+          <p class="lead">the incumbent — Material Design, batteries included</p>
+          <div class="grid-2" style="margin-top: 0.4em">
+            <div class="card sky">
+              <h3>Strengths</h3>
+              <ul>
+                <li>Huge, mature component set</li>
+                <li>First-class RTL for years</li>
+                <li>Blueprints + defaults system</li>
+                <li>Our team knows it deeply</li>
+              </ul>
+            </div>
+            <div class="card amber">
+              <h3>Watch out</h3>
+              <ul>
+                <li>Material look — hard to de-Google</li>
+                <li>SASS-variable theming, not CSS-native tokens</li>
+                <li>v3 → v4 (MD3) migration cost lands on us</li>
+                <li>Heavier runtime; we fight defaults today</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">
+            کاندیدای دوم: Vuetify — همان چیزی که الان در اپ Nuxt v4 داریم.
+            نقاط قوت واقعی‌اند: مجموعه‌ی عظیم کامپوننت، RTL قدیمی و پایدار، و
+            دانش عمیق تیم. اما مشکل‌ها را هم از نزدیک می‌شناسیم: ظاهر Material
+            که برای برند ما باید مدام override شود، theming مبتنی بر SASS که با
+            رویکرد توکن‌محور CSS ما نمی‌خواند، و مهاجرت v3 به v4 که خودش یک
+            پروژه است. ما داریم از Nuxt خارج می‌شویم که با default ها نجنگیم —
+            نه این‌که جنگ را به لایه‌ی UI منتقل کنیم.
+          </aside>
+        </section>
+
+        <!-- 10 · Candidate: PrimeVue -->
+        <section>
+          <h2>Candidate 3 · PrimeVue 4</h2>
+          <p class="lead">the component powerhouse — 90+ widgets, token-themed</p>
+          <div class="grid-2" style="margin-top: 0.4em">
+            <div class="card violet">
+              <h3>Strengths</h3>
+              <ul>
+                <li>Best-in-class <code>DataTable</code></li>
+                <li>v4 theming = real design-token API</li>
+                <li>Styled <em>and</em> unstyled/Tailwind modes</li>
+                <li>Broadest widget coverage</li>
+              </ul>
+            </div>
+            <div class="card amber">
+              <h3>Watch out</h3>
+              <ul>
+                <li>Mixed internals — parts still Options API / JS</li>
+                <li>Two theming systems to learn</li>
+                <li>RTL fine, Farsi/Jalali ecosystem thinner</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">
+            کاندیدای سوم: PrimeVue. اگر فقط یک معیار داشتیم — عمق کامپوننت —
+            برنده بود؛ DataTable آن بهترینِ اکوسیستم است. نسخه‌ی ۴ یک API واقعی
+            design token هم دارد و هم حالت styled و هم unstyled با Tailwind.
+            اما داخل کتابخانه هنوز یکدست نیست — بخشی از کامپوننت‌ها Options API
+            و JavaScript هستند و در حال مهاجرت‌اند — و دو سیستم theming یعنی
+            دو چیز برای یادگرفتن agentها.
+          </aside>
+        </section>
+
+        <!-- 11 · Candidate: shadcn-vue -->
+        <section>
+          <h2>Candidate 4 · shadcn-vue</h2>
+          <p class="lead">not a dependency — the CLI copies component source into your repo</p>
+          <div class="grid-2" style="margin-top: 0.4em">
+            <div class="card rose">
+              <h3>Strengths</h3>
+              <ul>
+                <li>You own every line — agents can read &amp; patch</li>
+                <li>Reka UI primitives + Tailwind (same base as Nuxt UI)</li>
+                <li>CSS-variable theming by construction</li>
+                <li>Zero lock-in, zero upgrade treadmill</li>
+              </ul>
+            </div>
+            <div class="card amber">
+              <h3>Watch out</h3>
+              <ul>
+                <li>You own every line — maintenance too</li>
+                <li>Data table = assemble-it-yourself (TanStack)</li>
+                <li>Fewer ready composites; community port</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">
+            کاندیدای چهارم: shadcn-vue — پارادایم متفاوت. کتابخانه نصب
+            نمی‌کنید؛ CLI سورس کامپوننت را داخل repo کپی می‌کند. برای
+            agentها این رویاست: کل کد جلوی چشم است، قابل خواندن و قابل patch.
+            ولی همان مزیت، هزینه است: نگهداری همه‌ی آن کد با ماست، جدول داده
+            باید با TanStack سرهم شود، و پروژه پورتِ جامعه است نه محصول رسمی.
+            برای تیم ما که ۸۰٪ نیازش کامپوننت‌های آماده است، این trade-off
+            نمی‌صرفد — اما از فلسفه‌اش استفاده می‌کنیم.
+          </aside>
+        </section>
+
+        <!-- 12 · Scorecard -->
+        <section
+          data-background-gradient="radial-gradient(circle at 70% 30%, #171331 0%, #0b0e14 65%)"
+        >
+          <h2>The scorecard</h2>
+          <table style="width: 100%">
+            <thead>
+              <tr>
+                <th>Criterion</th>
+                <th class="win">Nuxt UI 4</th>
+                <th>Vuetify 4</th>
+                <th>PrimeVue 4</th>
+                <th>shadcn-vue</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pure-Vue support</td>
+                <td class="win"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td>
+                <td><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+                <td><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+                <td><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+              </tr>
+              <tr>
+                <td>RTL · Farsi · Jalali</td>
+                <td class="win"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+                <td><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+                <td><span class="dots warn"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td>
+                <td><span class="dots bad"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td>
+              </tr>
+              <tr>
+                <td>Design-token theming</td>
+                <td class="win"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+                <td><span class="dots bad"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></td>
+                <td><span class="dots warn"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td>
+                <td><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+              </tr>
+              <tr>
+                <td>Component depth</td>
+                <td class="win"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td>
+                <td><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+                <td><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+                <td><span class="dots bad"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td>
+              </tr>
+              <tr>
+                <td>TS + a11y quality</td>
+                <td class="win"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+                <td><span class="dots warn"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td>
+                <td><span class="dots bad"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td>
+                <td><span class="dots warn"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td>
+              </tr>
+              <tr>
+                <td>Agent-friendliness</td>
+                <td class="win"><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+                <td><span class="dots warn"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td>
+                <td><span class="dots bad"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td>
+                <td><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td>
+              </tr>
+              <tr>
+                <td><strong>Total</strong></td>
+                <td class="win"><strong>28</strong></td>
+                <td><strong>25</strong></td>
+                <td><strong>24</strong></td>
+                <td><strong>25</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="lead" style="margin-top: 0.4em; font-size: 0.55em">
+            Honorable mentions: <strong>Quasar</strong> (all-in-one, but its own CLI world) ·
+            <strong>Element Plus</strong> (admin classic, weaker RTL story).
+          </p>
+          <aside class="notes">
+            جدول امتیازها. Vuetify و PrimeVue در عمق کامپوننت پنج می‌گیرند و
+            shadcn در مالکیت کد. اما در دو معیاری که برای ما وزن بیشتری دارند —
+            theming توکن‌محور و agent-friendliness — Nuxt UI و shadcn جلوترند و
+            Nuxt UI با پوشش کامل RTL و کامپوننت‌های آماده جمع بالاتری می‌گیرد.
+            Quasar و Element Plus را هم بررسی کردیم: Quasar دنیای CLI خودش را
+            دارد و Element Plus داستان RTL ضعیف‌تری دارد؛ به شش‌تایی نهایی
+            نرسیدند.
+          </aside>
+        </section>
+
+        <!-- 13 · Verdict -->
+        <section
+          data-background-gradient="radial-gradient(circle at 50% 20%, #10231c 0%, #0b0e14 60%)"
+        >
+          <h2>The verdict</h2>
+          <div class="verdict">
+            <p class="big">Nuxt UI v4 — standalone, on pure Vue</p>
+            <p class="lead" style="margin: 0.3em 0 0; font-size: 0.6em">
+              <code>@nuxt/ui/vue-plugin</code> · Reka UI a11y · Tailwind v4 tokens
+            </p>
+          </div>
+          <ol class="numbered-grid" style="margin-top: 0.6em">
+            <li><strong>Proven here</strong> — powers <code>front-cp-v2</code> in production</li>
+            <li><strong>Token pipeline fits</strong> — our <code>tokens.css</code> is its native theming</li>
+            <li><strong>Agent-ready</strong> — <code>llms.txt</code> docs, pinned skill in <code>skills-lock.json</code></li>
+            <li><strong>One library</strong> — form → table → toast, no mixing</li>
+            <li><strong>shadcn philosophy kept</strong> — our <code>Base*</code> wrappers own the API surface</li>
+          </ol>
+          <aside class="notes">
+            حکم نهایی: Nuxt UI نسخه‌ی ۴ در حالت standalone روی Vue خالص.
+            پنج دلیل: یک، همین حالا در front-cp-v2 در production جواب داده.
+            دو، tokens.css ما دقیقاً مدل theming بومی آن است. سه، برای agentها
+            آماده است — مستندات llms.txt و skill رسمی که pin کرده‌ایم. چهار،
+            یک کتابخانه همه‌ی مسیر فرم تا جدول تا نوتیفیکیشن را پوشش می‌دهد.
+            و پنج، فلسفه‌ی shadcn را دور نریخته‌ایم: wrapperهای Base* یعنی
+            سطح API مال ماست و اگر روزی خواستیم، زیرش را عوض می‌کنیم.
+          </aside>
+        </section>
+
+        <!-- ═══════════════ ACT III · COMPONENTS ═══════════════ -->
+
+        <!-- 14 · Act III divider -->
+        <section
+          class="part-divider"
+          data-background-gradient="radial-gradient(circle at 50% 40%, #101d2a 0%, #0b0e14 65%)"
+        >
+          <p class="act">III</p>
+          <h1>Components, classified</h1>
+          <p class="lead">four layers · one decision tree · zero ambiguity</p>
+          <aside class="notes">
+            پرده‌ی سوم: طبقه‌بندی کامپوننت‌ها. هدف: هیچ agent و هیچ توسعه‌دهنده‌ای
+            هرگز نپرسد «این کامپوننت را کجا بسازم؟»
+          </aside>
+        </section>
+
+        <!-- 15 · The four layers -->
+        <section>
+          <h2>The four layers</h2>
+          <div class="layers">
+            <div class="layer">
+              <span class="name">Base*</span>
+              <span class="desc">
+                <strong>Global primitives</strong> — <code>shared/ui/base/</code>. Wrap Nuxt UI +
+                heavy libs. Props/emits only. <code>BaseInput</code>, <code>BaseDataTable</code>, <code>BaseFilePond</code>.
+              </span>
+            </div>
+            <div class="layer violet">
+              <span class="name">App*</span>
+              <span class="desc">
+                <strong>Shell chrome</strong> — <code>shared/ui/shell/</code>. Header, sidebar, nav,
+                user menu. Knows layout, not domains. <code>AppSidebar</code>, <code>AppUserMenu</code>.
+              </span>
+            </div>
+            <div class="layer sky">
+              <span class="name">{Module} components</span>
+              <span class="desc">
+                <strong>Dumb domain UI</strong> — <code>modules/X/presentation/components/</code>.
+                Domain-shaped props, no stores, no API. <code>MediaCard</code>, <code>PaymentSidebar</code>.
+              </span>
+            </div>
+            <div class="layer amber">
+              <span class="name">{Module} screens</span>
+              <span class="desc">
+                <strong>Smart containers</strong> — <code>modules/X/presentation/screens/</code>.
+                Orchestrate use-cases + stores, pass data down. <code>CampaignListScreen</code>.
+              </span>
+            </div>
+          </div>
+          <p class="lead" style="margin-top: 0.5em; font-size: 0.6em">
+            Only screens are smart. Everything else renders props.
+          </p>
+          <aside class="notes">
+            چهار لایه داریم. Base* یعنی primitiveهای سراسری که Nuxt UI و
+            کتابخانه‌های سنگین را wrap می‌کنند — فقط props و emits. App* یعنی
+            پوسته‌ی اپ: هدر، سایدبار، منو — layout را می‌شناسد اما دامنه را نه.
+            کامپوننت‌های ماژول، UI گنگِ دامنه‌اند: props دامنه‌شکل می‌گیرند اما
+            نه store دارند نه API. و فقط لایه‌ی چهارم — screenها — هوشمند است:
+            use-case و store را به هم وصل می‌کند و داده را به پایین پاس می‌دهد.
+          </aside>
+        </section>
+
+        <!-- 16 · Placement decision tree -->
+        <section>
+          <h2>Where does a new component go?</h2>
+          <pre class="mermaid">
+%%{init: {"themeVariables": {"fontSize": "17px"}, "flowchart": {"rankSpacing": 38, "nodeSpacing": 34}}}%%
+flowchart LR
+  start["New\ncomponent"]
+  q1{"Wraps a\n3rd-party lib?"}
+  q2{"App chrome\n(nav, header)?"}
+  q3{"2+ modules,\nno domain logic?"}
+  q4{"Needs stores\nor use-cases?"}
+  base["shared/ui/base/\nBase*.vue"]
+  shell["shared/ui/shell/\nApp*.vue"]
+  modc["modules/X/…/\ncomponents/"]
+  screen["modules/X/…/screens/\n*Screen.vue"]
+
+  start --> q1
+  q1 -- yes --> base
+  q1 -- no --> q2
+  q2 -- yes --> shell
+  q2 -- no --> q3
+  q3 -- yes --> base
+  q3 -- no --> q4
+  q4 -- no --> modc
+  q4 -- yes --> screen
+
+  classDef q fill:#11141c,stroke:#a78bfa,color:#eef1f6;
+  classDef leaf fill:#10231c,stroke:#42d392,color:#42d392;
+  classDef s fill:#11141c,stroke:#3a3f4d,color:#eef1f6;
+
+  class start s
+  class q1,q2,q3,q4 q
+  class base,shell,modc,screen leaf
+          </pre>
+          <p class="lead" style="margin-top: 0.3em; text-align: center; font-size: 0.6em">
+            contract: <code>data-test</code> on every interactive element ·
+            template ≤ 80 lines · <code>&lt;script setup&gt;</code> ≤ 60 lines
+          </p>
+          <aside class="notes">
+            این درخت تصمیم، همان چیزی است که در rule های agent هم کدنویسی شده.
+            چهار سؤال: کتابخانه‌ی خارجی را wrap می‌کند؟ Base. پوسته‌ی اپ است؟
+            App. بین دو ماژول یا بیشتر مشترک است و منطق دامنه ندارد؟ باز هم
+            Base. به store یا use-case نیاز دارد؟ Screen؛ وگرنه کامپوننت گنگ
+            ماژول. و دو قرارداد ثابت: هر المان تعاملی data-test دارد و سقف
+            خطوط template و script رعایت می‌شود — از آن به بعد باید شکست.
+          </aside>
+        </section>
+
+        <!-- 17 · Wrapping heavy libs -->
+        <section
+          data-background-gradient="radial-gradient(circle at 20% 80%, #171331 0%, #0b0e14 65%)"
+        >
+          <h2>Heavy libs live behind wrappers</h2>
+          <div class="grid-3" style="margin-top: 0.4em">
+            <div class="card">
+              <h3>BaseFilePond</h3>
+              <p>FilePond + tus resumable uploads — one component, one config.</p>
+            </div>
+            <div class="card violet">
+              <h3>BaseRichTextEditor</h3>
+              <p>TipTap + <code>useRichTextEditor</code> — toolbar decided once.</p>
+            </div>
+            <div class="card sky">
+              <h3>BaseServerDataTable</h3>
+              <p>Table + server pagination/sort state, URL-synced.</p>
+            </div>
+          </div>
+          <ul style="margin-top: 0.55em; font-size: 0.7em">
+            <li>Consumers <strong>never import the third-party API</strong></li>
+            <li>Swap or upgrade the lib in <strong>one file</strong></li>
+            <li>Agents learn <strong>one project API</strong>, not five vendor docs</li>
+          </ul>
+          <aside class="notes">
+            کتابخانه‌های سنگین هرگز مستقیم استفاده نمی‌شوند. FilePond،
+            TipTap، جدول‌ها — همه پشت یک wrapper پروژه‌ای. سه دلیل: مصرف‌کننده
+            هیچ‌وقت API فروشنده را import نمی‌کند؛ تعویض یا آپگرید کتابخانه
+            فقط یک فایل را عوض می‌کند؛ و agent به‌جای پنج داکیومنتِ متفاوت،
+            فقط یک API پروژه‌ای را یاد می‌گیرد. این همان جایی است که فلسفه‌ی
+            shadcn را نگه داشتیم: سطح API مال ماست.
+          </aside>
+        </section>
+
+        <!-- ═══════════════ ACT IV · LOGIC ═══════════════ -->
+
+        <!-- 18 · Act IV divider -->
+        <section
+          class="part-divider"
+          data-background-gradient="radial-gradient(circle at 50% 40%, #241a10 0%, #0b0e14 65%)"
+        >
+          <p class="act">IV</p>
+          <h1>Where logic lives</h1>
+          <p class="lead">composables · stores · utils — each has exactly one job</p>
+          <aside class="notes">
+            پرده‌ی چهارم: منطق کجا زندگی می‌کند؟ سه خانه داریم — composable،
+            store و util — و هرکدام دقیقاً یک وظیفه دارند.
+          </aside>
+        </section>
+
+        <!-- 19 · Three homes for logic -->
+        <section>
+          <h2>Three homes, one rule each</h2>
+          <div class="grid-3" style="margin-top: 0.5em">
+            <div class="card">
+              <h3>Composable</h3>
+              <p style="font-size: 0.6em">
+                <strong>Reusable reactive behavior.</strong> Returns refs,
+                computed, functions. State lives with the caller — a new copy
+                per use.
+              </p>
+              <p style="font-size: 0.55em"><code>shared/composables/use*.ts</code></p>
+            </div>
+            <div class="card violet">
+              <h3>Store (Pinia)</h3>
+              <p style="font-size: 0.6em">
+                <strong>Shared state that outlives routes.</strong> One
+                singleton, devtools, persistence. The exception, not the
+                default.
+              </p>
+              <p style="font-size: 0.55em"><code>app/stores/*.ts</code></p>
+            </div>
+            <div class="card sky">
+              <h3>Util</h3>
+              <p style="font-size: 0.6em">
+                <strong>Pure function.</strong> No reactivity, no Vue import,
+                same input → same output. Trivially testable.
+              </p>
+              <p style="font-size: 0.55em"><code>shared/lib/*.ts</code></p>
+            </div>
+          </div>
+          <div class="card amber" style="margin-top: 0.55em">
+            <h3>+ Module use-case</h3>
+            <p style="font-size: 0.6em">
+              A composable that orchestrates <strong>one domain workflow</strong> —
+              fetch, rules, state for its screen.
+              <code>modules/X/application/use-cases/useCampaignList.ts</code>
+            </p>
+          </div>
+          <aside class="notes">
+            سه خانه، هرکدام یک قانون. Composable یعنی رفتار reactive قابل
+            استفاده‌ی مجدد — هر بار صدا زدن، یک نسخه‌ی تازه؛ state مال
+            صدازننده است. Store یعنی state مشترکی که از route عبور می‌کند —
+            singleton است و باید استثنا باشد، نه پیش‌فرض. Util یعنی تابع خالص:
+            نه reactivity، نه import از Vue؛ ورودی یکسان، خروجی یکسان. و شکل
+            چهارم که در واقع همان composable است اما در لایه‌ی application
+            ماژول: use-case — ارکستراسیون یک جریان دامنه برای screen خودش.
+          </aside>
+        </section>
+
+        <!-- 20 · Logic decision tree -->
+        <section>
+          <h2>Which one? Ask in order</h2>
+          <pre class="mermaid">
+%%{init: {"themeVariables": {"fontSize": "18px"}, "flowchart": {"rankSpacing": 44, "nodeSpacing": 38}}}%%
+flowchart LR
+  start["New piece\nof logic"]
+  q1{"Pure function,\nno reactivity?"}
+  q2{"State survives routes\nor crosses modules?"}
+  q3{"One domain's\nworkflow?"}
+  util["shared/lib/\nutil"]
+  store["Pinia store\napp/stores/"]
+  uc["module use-case\napplication/use-cases/"]
+  comp["shared composable\nshared/composables/"]
+
+  start --> q1
+  q1 -- yes --> util
+  q1 -- no --> q2
+  q2 -- yes --> store
+  q2 -- no --> q3
+  q3 -- yes --> uc
+  q3 -- no --> comp
+
+  classDef q fill:#11141c,stroke:#a78bfa,color:#eef1f6;
+  classDef leaf fill:#10231c,stroke:#42d392,color:#42d392;
+  classDef s fill:#11141c,stroke:#3a3f4d,color:#eef1f6;
+
+  class start s
+  class q1,q2,q3 q
+  class util,store,uc,comp leaf
+          </pre>
+          <p class="lead" style="margin-top: 0.3em; text-align: center; font-size: 0.62em">
+            <code>front-cp-v2</code> has <strong>3 global stores</strong> total —
+            auth · theme · cart. That's the point.
+          </p>
+          <aside class="notes">
+            ترتیب سؤال‌ها مهم است. اول: تابع خالص است؟ util. دوم: state باید
+            از route عبور کند یا بین ماژول‌ها مشترک باشد؟ store. سوم: جریانِ
+            یک دامنه است؟ use-case ماژول. وگرنه: composable مشترک. نکته‌ی
+            پایین اسلاید را جدی بگیرید: کل front-cp-v2 فقط سه store سراسری
+            دارد — auth و theme و cart. store کم یعنی معماری سالم؛ هر چیز
+            دیگری یا محلی است یا در URL.
+          </aside>
+        </section>
+
+        <!-- 21 · Real examples -->
+        <section
+          data-background-gradient="radial-gradient(circle at 80% 60%, #101d2a 0%, #0b0e14 65%)"
+        >
+          <h2>Real examples — <code>front-cp-v2</code></h2>
+          <table style="width: 100%">
+            <thead>
+              <tr>
+                <th>Artifact</th>
+                <th>Kind</th>
+                <th>Why it lives there</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>useCustomFetch</code></td>
+                <td>shared composable</td>
+                <td>auth refresh + single-flight 401 retry — every module needs it</td>
+              </tr>
+              <tr>
+                <td><code>useValidationRules</code></td>
+                <td>shared composable</td>
+                <td>one rules vocabulary, i18n-bound, no inline regex</td>
+              </tr>
+              <tr>
+                <td><code>useSnackbar</code></td>
+                <td>shared composable</td>
+                <td>facade over the UI lib's toast — swappable</td>
+              </tr>
+              <tr>
+                <td><code>auth</code> · <code>theme</code> · <code>cart</code></td>
+                <td>global stores</td>
+                <td>session, dark mode, cross-module cart — true shared state</td>
+              </tr>
+              <tr>
+                <td><code>shared/lib/date.ts</code></td>
+                <td>util</td>
+                <td>Jalali ⇄ Gregorian — pure, no Vue, unit-tested</td>
+              </tr>
+              <tr>
+                <td><code>useCampaignListScreen</code></td>
+                <td>module use-case</td>
+                <td>one screen's workflow: filters + fetch + table state</td>
+              </tr>
+            </tbody>
+          </table>
+          <aside class="notes">
+            مثال‌های واقعی. useCustomFetch در لایه‌ی shared است چون همه به
+            آن نیاز دارند — refresh توکن و retry بعد از 401 فقط یک‌بار پیاده
+            شده. useSnackbar یک facade روی toast کتابخانه‌ی UI است — اگر روزی
+            کتابخانه عوض شد، فقط همین فایل عوض می‌شود. سه store سراسری همان
+            state واقعاً مشترک‌اند. date.ts خالص است و unit test دارد. و
+            useCampaignListScreen نمونه‌ی use-case ماژول است: جریان کامل یک
+            screen — فیلترها، fetch و state جدول.
+          </aside>
+        </section>
+
+        <!-- 22 · Anti-patterns -->
+        <section>
+          <h2>Instant review rejections</h2>
+          <div class="grid-2x2" style="margin-top: 0.5em">
+            <div class="card no">
+              <h3>Fetch in a dumb component</h3>
+              <p>Components render props. Fetching belongs to use-cases.</p>
+            </div>
+            <div class="card no">
+              <h3>Store as universal cache</h3>
+              <p>Route-local state goes in the use-case or the URL — not Pinia.</p>
+            </div>
+            <div class="card no">
+              <h3>Util that imports Vue</h3>
+              <p>The moment it needs a <code>ref</code>, it's a composable. Move it.</p>
+            </div>
+            <div class="card no">
+              <h3>A second HTTP client</h3>
+              <p>All traffic goes through <code>useCustomFetch</code>. No raw <code>fetch</code>/axios.</p>
+            </div>
+          </div>
+          <aside class="notes">
+            چهار الگویی که در review مستقیم رد می‌شوند — و lint هم بیشترشان را
+            می‌گیرد: fetch داخل کامپوننت گنگ؛ استفاده از Pinia به‌عنوان کش
+            همه‌چیز درحالی‌که state محلی باید در use-case یا URL باشد؛ util ای
+            که Vue import می‌کند — همان لحظه باید composable شود؛ و ساختن
+            HTTP client دوم — همه‌ی ترافیک از useCustomFetch رد می‌شود، بدون
+            استثنا.
+          </aside>
+        </section>
+
+        <!-- ═══════════════ ACT V · LABS & TOKENS ═══════════════ -->
+
+        <!-- 23 · Act V divider -->
+        <section
+          class="part-divider"
+          data-background-gradient="radial-gradient(circle at 50% 40%, #10231c 0%, #0b0e14 65%)"
+        >
+          <p class="act">V</p>
+          <h1>Labs &amp; design tokens</h1>
+          <p class="lead">the design system, as running code</p>
+          <aside class="notes">
+            پرده‌ی پنجم: سیستم طراحی — نه به‌شکل PDF، بلکه به‌شکل کد در حال
+            اجرا. اول توکن‌ها، بعد Labs.
+          </aside>
+        </section>
+
+        <!-- 24 · Design tokens -->
+        <section>
+          <h2>Design tokens — one source, every surface</h2>
+          <div class="swatch-row">
+            <div class="swatch light" style="background:#eef2ff"><span>brand-50</span></div>
+            <div class="swatch light" style="background:#c7d2fe"><span>brand-200</span></div>
+            <div class="swatch" style="background:#818cf8"><span>brand-400</span></div>
+            <div class="swatch" style="background:#4f46e5"><span>brand-600</span></div>
+            <div class="swatch" style="background:#3730a3"><span>brand-800</span></div>
+            <div class="swatch" style="background:#1e1b4b"><span>brand-950</span></div>
+          </div>
+          <div class="swatch-row">
+            <div class="swatch" style="background:#22c55e"><span>state-success</span></div>
+            <div class="swatch" style="background:#f59e0b"><span>state-warning</span></div>
+            <div class="swatch" style="background:#ef4444"><span>state-error</span></div>
+            <div class="swatch" style="background:#3b82f6"><span>state-info</span></div>
+          </div>
+          <pre style="margin-top: 0.45em"><code class="language-css">/* assets/css/tokens.css — the only place colors are defined */
+@theme {
+  --color-brand-600: #4f46e5;
+  --color-state-error-600: #ef4444;
+}
+/* Figma "Content/Neutral/7"  →  text-content-neutral-level-7
+   Figma "Surface/Neutral/2"  →  bg-surface-neutral-level-2   */</code></pre>
+          <p class="lead" style="margin-top: 0.3em; font-size: 0.62em">
+            palette → semantic token → utility class · dark mode = tokens flip under
+            <code>.dark</code>, components never change
+          </p>
+          <aside class="notes">
+            توکن طراحی یعنی: رنگ و فونت و فاصله فقط در یک فایل تعریف می‌شود —
+            tokens.css — و بقیه‌ی اپ فقط به اسم semantic آن ارجاع می‌دهد.
+            زنجیره این است: پالت خام، توکن معنایی، کلاس utility. اسم‌های
+            اسلش‌دار Figma یک‌به‌یک به utility ها map می‌شوند — یعنی agent
+            خروجی Figma را بدون حدس‌زدن به کلاس درست ترجمه می‌کند. و حالت
+            تاریک؟ فقط مقدار توکن‌ها زیر کلاس dark عوض می‌شود؛ هیچ کامپوننتی
+            دست نمی‌خورد.
+          </aside>
+        </section>
+
+        <!-- 25 · The Labs screen -->
+        <section
+          data-background-gradient="radial-gradient(circle at 30% 30%, #171331 0%, #0b0e14 65%)"
+        >
+          <h2>Labs — the living catalog</h2>
+          <div class="grid-2" style="margin-top: 0.4em">
+            <div class="card">
+              <h3>What it is</h3>
+              <ul>
+                <li><code>/labs</code> route, a real module</li>
+                <li>One section per primitive family — buttons, inputs, tables, pickers…</li>
+                <li>Every <code>Base*</code> component, every variant, both themes</li>
+              </ul>
+            </div>
+            <div class="card violet">
+              <h3>How it's used</h3>
+              <ul>
+                <li><strong>Rule:</strong> agents visit Labs <em>before</em> authoring UI</li>
+                <li>New <code>Base*</code> ⇒ new <code>Labs*Section</code> — same PR</li>
+                <li>Visual check via browser MCP against it</li>
+              </ul>
+            </div>
+          </div>
+          <pre class="mermaid" style="margin-top: 0.35em">
+%%{init: {"themeVariables": {"fontSize": "18px"}, "flowchart": {"rankSpacing": 46, "nodeSpacing": 40}}}%%
+flowchart LR
+  a["Base* built\nor changed"] --> b["Labs*Section\nadded / updated"]
+  b --> c["Browser check\nthemes + RTL"]
+  c --> d["Design feedback\non the live page"]
+  d -->|approved| e["Ship"]
+  d -->|changes| a
+
+  classDef s fill:#11141c,stroke:#3a3f4d,color:#eef1f6;
+  classDef g fill:#10231c,stroke:#42d392,color:#42d392;
+  class a,b,c,d s
+  class e g
+          </pre>
+          <aside class="notes">
+            Labs یک صفحه‌ی واقعی در خود اپ است — کاتالوگ زنده‌ی design system.
+            هر خانواده‌ی primitive یک سکشن دارد و همه‌ی variant ها در هر دو
+            تم دیده می‌شوند. دو قانون: agent قبل از ساختن هر UI جدید اول Labs
+            و shared/ui/base را می‌بیند تا چیز تکراری نسازد؛ و هر کامپوننت
+            Base جدید در همان PR سکشن Labs خودش را می‌گیرد. چرخه‌ی توسعه هم
+            همین است: بساز، سکشن اضافه کن، با browser MCP در هر دو تم و RTL
+            چک کن، بازخورد طراح را روی صفحه‌ی واقعی بگیر، ship کن.
+          </aside>
+        </section>
+
+        <!-- ═══════════════ CLOSE ═══════════════ -->
+
+        <!-- 26 · Agents enforce it -->
+        <section>
+          <h2>None of this relies on memory</h2>
+          <div class="grid-2" style="grid-template-columns: 1fr 1.1fr; align-items: center">
+            <pre class="mermaid" style="margin: 0">
+%%{init: {"themeVariables": {"fontSize": "18px"}, "flowchart": {"rankSpacing": 42, "nodeSpacing": 30}}}%%
+flowchart TB
+  rules["📁 canonical rules\n.claude/rules/"]
+  gen["CLAUDE.md · AGENTS.md\ngenerated + protected"]
+  skills["authoring skills\nper artifact type"]
+  agent["agent writes code"]
+  hooks["hooks gate\nlint · typecheck · tests"]
+  ship["ship"]
+
+  rules --> gen
+  rules --> skills
+  gen --> agent
+  skills --> agent
+  agent --> hooks
+  hooks -- fail --> agent
+  hooks -- pass --> ship
+
+  classDef canon fill:#171331,stroke:#a78bfa,color:#eef1f6;
+  classDef step fill:#11141c,stroke:#3a3f4d,color:#eef1f6;
+  classDef gate fill:#10231c,stroke:#42d392,color:#42d392;
+
+  class rules,gen canon
+  class skills,agent step
+  class hooks,ship gate
+            </pre>
+            <ul style="font-size: 0.72em">
+              <li style="margin-bottom: 0.7em">
+                Every decision today becomes a <strong>rule or skill</strong>,
+                not a wiki page
+              </li>
+              <li style="margin-bottom: 0.7em">
+                Component / composable / store each get an
+                <strong>authoring skill</strong>
+              </li>
+              <li>
+                Hooks gate completion: lint · typecheck · tests ·
+                <code>data-test</code> · both locales
+              </li>
+            </ul>
+          </div>
+          <aside class="notes">
+            و نخ تسبیح همه‌ی این‌ها: هیچ‌کدام به حافظه‌ی آدم‌ها تکیه ندارد.
+            هر تصمیمی که امروز گرفتیم — انتخاب فریم‌ورک، لایه‌های کامپوننت،
+            درخت تصمیم منطق، قانون Labs — به‌شکل rule و skill کدنویسی می‌شود.
+            برای هر نوع artifact یک skill نویسندگی داریم؛ فایل‌های generate
+            شده محافظت می‌شوند؛ و hook ها پایان کار را gate می‌کنند: lint،
+            typecheck، تست، data-test و هر دو زبان. agent بعدی و همکار بعدی
+            دقیقاً همین الگوها را اجرا می‌کند.
+          </aside>
+        </section>
+
+        <!-- 27 · Recap -->
+        <section
+          class="title"
+          data-background-gradient="radial-gradient(circle at 25% 25%, #10231c 0%, #0b0e14 55%), radial-gradient(circle at 80% 75%, #171331 0%, #0b0e14 60%)"
+        >
+          <h2 style="text-align: center">Five decisions</h2>
+          <ol class="numbered-grid" style="margin-top: 0.6em; text-align: left">
+            <li><strong>Pure Vue + Vite</strong> — explicit over magic</li>
+            <li><strong>Nuxt UI v4 standalone</strong> — tokens, RTL, agent-ready</li>
+            <li><strong>Four component layers</strong> — Base* / App* / module / screen</li>
+            <li><strong>Logic decision tree</strong> — util → store → use-case → composable</li>
+            <li><strong>Tokens + Labs</strong> — the design system is running code</li>
+          </ol>
+          <p class="lead" style="margin-top: 0.9em; font-size: 0.65em">
+            next: scaffold the repo · port <code>tokens.css</code> · build Labs first ·
+            then the first module
+          </p>
+          <p style="margin-top: 0.7em">
+            <span class="tag mono">STORY.md — full narration (fa)</span>
+          </p>
+          <aside class="notes">
+            جمع‌بندی: پنج تصمیم. Vue خالص با Vite — صراحت به‌جای جادو. Nuxt UI
+            چهار به‌صورت standalone. چهار لایه‌ی کامپوننت. درخت تصمیم منطق. و
+            توکن‌ها به‌علاوه‌ی Labs به‌عنوان design system زنده. قدم‌های بعدی:
+            اسکافولد repo، پورت tokens.css، اول Labs، بعد اولین ماژول.
+            سؤال‌ها؟
+          </aside>
+        </section>
+      </div>
+
+      <div class="footer">pure vue · the new stack</div>
+    </div>
+
+    <!-- Reveal.js core + plugins (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+
+    <!-- Mermaid for the flow diagrams (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+
+    <script>
+      const deck = new Reveal({
+        // 1280×720 logical canvas → clean 1.5× scale on a 1920×1080 display
+        width: 1280,
+        height: 720,
+        margin: 0.04,
+        minScale: 0.5,
+        maxScale: 2.5,
+
+        hash: true,
+        slideNumber: 'c/t',
+        transition: 'slide',
+        backgroundTransition: 'fade',
+        controls: true,
+        progress: true,
+        center: false,
+        autoAnimate: true,
+        plugins: [RevealHighlight, RevealNotes],
+      });
+
+      // Configure Mermaid synchronously so its DOMContentLoaded auto-start
+      // sees startOnLoad:false. Then cache each block's source so we can
+      // re-render lazily, when its slide is actually visible. (Reveal hides
+      // off-screen slides with display:none, which makes htmlLabels measure
+      // to NaN on first paint — the cause of the 'Syntax error in text'.)
+      if (window.mermaid) {
+        window.mermaid.initialize({
+          startOnLoad: false,
+          // 'loose' lets \n survive DOMPurify so multi-line node labels
+          // actually wrap. Safe here because every diagram source is static
+          // markup we author — no user input ever feeds Mermaid.
+          securityLevel: 'loose',
+          theme: 'dark',
+          themeVariables: {
+            // System font on purpose: Mermaid measures labels at render time;
+            // a webfont swapping in afterwards changes metrics and clips text.
+            fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+            fontSize: '15px',
+            primaryColor: '#11141c',
+            primaryTextColor: '#eef1f6',
+            primaryBorderColor: '#42d392',
+            lineColor: '#a78bfa',
+            secondaryColor: '#171331',
+            tertiaryColor: '#0b0e14',
+            edgeLabelBackground: '#0b0e14',
+          },
+          flowchart: {
+            curve: 'basis',
+            htmlLabels: true,
+            padding: 12,
+          },
+        });
+      }
+
+      document.querySelectorAll('pre.mermaid, div.mermaid').forEach((el) => {
+        el.dataset.mermaidSource = el.textContent;
+      });
+
+      function renderMermaidIn(slideEl) {
+        if (!slideEl || !window.mermaid) return;
+        const blocks = slideEl.querySelectorAll('pre.mermaid, div.mermaid');
+        blocks.forEach((el) => {
+          if (el.dataset.mermaidDone === 'true') return;
+          if (el.dataset.mermaidSource) {
+            el.innerHTML = el.dataset.mermaidSource;
+            el.removeAttribute('data-processed');
+          }
+          window.mermaid
+            .run({ nodes: [el] })
+            .then(() => {
+              const svg = el.querySelector('svg');
+              const failed = svg && svg.querySelector('.error-icon');
+              if (svg && !failed) el.dataset.mermaidDone = 'true';
+            })
+            .catch(() => {});
+        });
+      }
+
+      deck.initialize().then(() => {
+        if (window.mermaid) {
+          deck.on('slidechanged', (e) => renderMermaidIn(e.currentSlide));
+          renderMermaidIn(deck.getCurrentSlide());
+        }
+      });
+    </script>
+  </body>
+</html>
