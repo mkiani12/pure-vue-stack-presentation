@@ -1,7 +1,10 @@
 # Pure Vue · the new stack — Presentation
 
 A Reveal.js decision deck about moving our frontend stack from **Nuxt (SPA
-mode)** to **pure Vue 3 + Vite**:
+mode)** to **pure Vue 3 + Vite** — setting the standard for **every SPA we
+build from now on**; the first target is our biggest legacy Nuxt + Vuetify
+dashboard (`front-cp-v2` is referenced throughout as the lab sample that
+trialled the candidate stack, not one of our apps):
 
 1. **UI framework** — Nuxt UI vs Vuetify vs PrimeVue vs shadcn-vue, scored
    against our use case (pure Vue, RTL/Farsi/Jalali, design tokens,
@@ -16,6 +19,11 @@ mode)** to **pure Vue 3 + Vite**:
    use-cases, with the ordering rules and real examples.
 4. **Labs & design tokens** — `tokens.css` as the single source of truth and
    the Labs screen as the living component catalog.
+
+Also on the table: the **package manager decision** (bun vs pnpm vs yarn) and
+**CSP handling without Nuxt** (nginx owns the headers today; the real work is
+tightening the permissive policy). The closing slide announces the next
+meeting's agenda: the **error-handling engine** and **logs & telemetry**.
 
 The deck **defines and compares only** — every decision is made live in the
 team meeting; nothing is pre-decided.
@@ -58,7 +66,7 @@ every push to `main`. One-time setup:
 
 ```
 .
-├── index.html              # the deck (30 slides, 5 acts)
+├── index.html              # the deck (33 slides, 5 acts)
 ├── styles.css              # theme overrides (all design tokens in :root)
 ├── STORY.md                # Farsi narration & storytelling, per slide
 ├── .claude/skills/deck-authoring/SKILL.md

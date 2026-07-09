@@ -61,12 +61,12 @@
             the new stack — defined and compared; decided together, today
           </h3>
           <p style="margin-top: 1em">
+            <span class="tag">the standard for every SPA we build</span>
             <span class="tag">Vue 3.5</span>
             <span class="tag">Vite 6</span>
             <span class="tag">Pinia 3</span>
             <span class="tag violet">every decision: made in this meeting</span>
             <span class="tag">TypeScript max-strict</span>
-            <span class="tag">bun</span>
           </p>
           <p class="lead" style="margin-top: 1.2em; font-size: 0.6em">
             agent-driven from day one · narration in <code>STORY.md</code>
@@ -75,13 +75,61 @@
             سلام به همه. امروز درباره‌ی استک جدید فرانت‌اند صحبت می‌کنیم: مهاجرت از
             Nuxt به Vue خالص. این ارائه فقط تعریف و مقایسه می‌کند — هیچ تصمیمی
             از قبل گرفته نشده؛ سر هر بخش همین‌جا بحث و تصمیم‌گیری می‌کنیم.
-            موضوعات: فریم‌ورک UI، طبقه‌بندی کامپوننت‌ها (و مقایسه با
-            سلسله‌مراتب مدرن کامپوننت)، جای منطق، و Labs و design tokenها.
-            همه با فرض توسعه‌ی agent-driven.
+            موضوعات: فریم‌ورک UI، package manager، طبقه‌بندی کامپوننت‌ها (و
+            مقایسه با سلسله‌مراتب مدرن کامپوننت)، جای منطق، و Labs و design
+            tokenها. همه با فرض توسعه‌ی agent-driven — و خروجی این جلسه،
+            استانداردِ ساخت همه‌ی SPA های ما از این به بعد است، در هر
+            پروژه؛ اولین بیمار هم بزرگ‌ترین داشبورد قدیمی‌مان است.
           </aside>
         </section>
 
-        <!-- 2 · Why we're leaving Nuxt -->
+        <!-- 2 · The patient: our biggest legacy dashboard -->
+        <section
+          data-background-gradient="radial-gradient(circle at 20% 30%, #241318 0%, #0b0e14 60%)"
+        >
+          <h2>The first patient — our biggest legacy dashboard</h2>
+          <p class="lead">
+            one of several SPAs · rewrite already decided · what we pick today becomes
+            the standard for all of them
+          </p>
+          <div class="grid-2" style="margin-top: 0.45em">
+            <div class="card sky">
+              <h3>What it is</h3>
+              <ul>
+                <li>Nuxt 4 SPA (SSR off) + Vuetify 3.8 + Pinia</li>
+                <li>yarn · static build served by nginx</li>
+                <li>342 <code>.vue</code> files · 63 pages</li>
+              </ul>
+            </div>
+            <div class="card rose">
+              <h3>Why it hurts</h3>
+              <ul>
+                <li>270 components in one flat pile — no layering</li>
+                <li>10+ global stores — state sprawl</li>
+                <li>5 Jalali date libraries doing one job</li>
+                <li>Constant fights with Vuetify defaults</li>
+              </ul>
+            </div>
+          </div>
+          <p class="lead fragment fade-up" style="margin-top: 0.55em; font-size: 0.65em">
+            <code>front-cp-v2</code> (dorna) is <strong>not</strong> our app — it's the
+            <strong>lab sample</strong> where we trialled a candidate stack, end to end.
+          </p>
+          <aside class="notes">
+            بیمار اول: بزرگ‌ترین داشبورد قدیمی‌مان — یکی از چند اپ SPA ما؛
+            تصمیم‌های امروز استاندارد همه‌شان می‌شود. Nuxt 4 در حالت SPA،
+            Vuetify 3.8، Pinia، با yarn و سِرو استاتیک پشت nginx. ۳۴۲ فایل
+            Vue و ۶۳ صفحه. دردها: ۲۷۰ کامپوننت در یک توده‌ی تخت بدون
+            لایه‌بندی، بیش از ده store سراسری، پنج کتابخانه‌ی تاریخ جلالی
+            برای یک کار، و جنگ دائمی با پیش‌فرض‌های Vuetify. تصمیم بازنویسی
+            قبلاً گرفته شده؛ امروز استکش را انتخاب می‌کنیم. و یک شفاف‌سازی
+            مهم: front-cp-v2 که در این ارائه زیاد اسمش را می‌شنوید اپ ما
+            نیست — نمونه‌ی آزمایشگاهی است که یک استک کاندیدا را در آن
+            سرتاسر محک زدیم.
+          </aside>
+        </section>
+
+        <!-- 3 · Why we're leaving Nuxt -->
         <section
           data-background-gradient="radial-gradient(circle at 80% 20%, #241318 0%, #0b0e14 60%)"
         >
@@ -135,7 +183,7 @@
 
         <!-- ═══════════════ ACT I · FOUNDATION ═══════════════ -->
 
-        <!-- 3 · Act I divider -->
+        <!-- 4 · Act I divider -->
         <section
           class="part-divider"
           data-background-gradient="radial-gradient(circle at 50% 40%, #10231c 0%, #0b0e14 65%)"
@@ -149,7 +197,7 @@
           </aside>
         </section>
 
-        <!-- 4 · Replacement map -->
+        <!-- 5 · Replacement map -->
         <section>
           <h2>Nuxt → pure Vue, feature by feature</h2>
           <table style="width: 100%">
@@ -208,7 +256,7 @@
           </aside>
         </section>
 
-        <!-- 5 · The stack wall -->
+        <!-- 6 · The stack wall -->
         <section
           data-background-gradient="radial-gradient(circle at 30% 70%, #101d2a 0%, #0b0e14 65%)"
         >
@@ -221,22 +269,137 @@
             <div class="card edge violet"><h3>vue-i18n 10</h3><p>fa / en · RTL first</p></div>
             <div class="card edge sky"><h3>VeeValidate + Zod</h3><p>schema-typed forms</p></div>
             <div class="card edge amber"><h3>TS max-strict</h3><p><code>noUncheckedIndexedAccess</code>, no <code>any</code></p></div>
-            <div class="card edge"><h3>bun</h3><p>install + scripts, in Docker</p></div>
+            <div class="card edge"><h3>bun?</h3><p>package manager — decided today</p></div>
           </div>
           <p class="lead" style="margin-top: 0.6em; text-align: center; font-size: 0.62em">
-            proven in production — this is the <code>front-cp-v2</code> stack
+            battle-tested end to end in <code>front-cp-v2</code> — our lab sample ·
+            the base for every SPA we build from now on
           </p>
           <aside class="notes">
-            استک کامل این است. نکته‌ی مهم: این لیست تئوری نیست — دقیقاً همان
-            چیزی است که در front-cp-v2 در production اجرا می‌شود. TypeScript
-            در سخت‌گیرترین حالت، فرم‌ها با Zod schema تایپ می‌شوند، و i18n از
-            روز اول دو زبانه و RTL-first است.
+            استک کامل این است. نکته‌ی مهم: این لیست تئوری نیست — در نمونه‌ی
+            آزمایشگاهی front-cp-v2 سرتاسر پیاده شده و کار می‌کند؛ و هدف،
+            ساخت و بازنویسی همه‌ی SPA ها با همین پایه است. TypeScript در سخت‌گیرترین
+            حالت، فرم‌ها با Zod schema تایپ می‌شوند، و i18n از روز اول دو
+            زبانه و RTL-first است. دو مورد از همین پرده هنوز باز است:
+            package manager و CSP — دو اسلاید بعد.
+          </aside>
+        </section>
+
+        <!-- 7 · Package manager: bun? -->
+        <section
+          data-background-gradient="radial-gradient(circle at 70% 70%, #241a10 0%, #0b0e14 65%)"
+        >
+          <h2>Package manager — a decision for this meeting</h2>
+          <p class="lead">
+            our apps run yarn today · the sample ran bun · runtime stays Node either way
+          </p>
+          <table style="width: 100%">
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th>What it gives us</th>
+                <th>Watch out</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>bun</strong></td>
+                <td>fastest installs (CI/Docker) · one binary: install + run + test · proven in the dorna sample images</td>
+                <td>youngest ecosystem; occasional native-module / postinstall quirks</td>
+              </tr>
+              <tr>
+                <td><strong>pnpm</strong></td>
+                <td>near-bun speed · content-addressable store · strict <code>node_modules</code> catches phantom deps</td>
+                <td>strictness surfaces sloppy transitive imports (that's also the point)</td>
+              </tr>
+              <tr>
+                <td><strong>yarn</strong> <span style="color: var(--ink-mute)">(today)</span></td>
+                <td>zero migration — current lockfiles and CI just keep working</td>
+                <td>slowest of the three; Berry config complexity for no gain in our setup</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="biz">
+            <div class="gain">
+              <strong>Benefit</strong> — minutes off every CI run and Docker build;
+              one tool instead of three in the dev loop
+            </div>
+            <div class="cost">
+              <strong>Cost</strong> — lockfile migration + a bet on a younger
+              toolchain (bun) or stricter installs (pnpm)
+            </div>
+          </div>
+          <div class="verdict open" style="margin-top: 0.5em">
+            <p class="big" style="font-size: 0.95em">
+              Open — bun · pnpm · stay on yarn
+            </p>
+          </div>
+          <aside class="notes">
+            یک تصمیم باز در همین پرده: package manager. مهم است روشن باشد
+            چه چیزی عوض نمی‌شود: build را همچنان Vite و vue-tsc انجام
+            می‌دهند و runtime هم Node می‌ماند — بحث فقط ابزار نصب و اجرای
+            اسکریپت‌هاست. bun سریع‌ترین نصب را دارد، یک باینری واحد برای
+            install و run و test است و در ایمیج‌های نمونه‌ی درنا هم امتحانش
+            کرده‌ایم؛ ریسکش جوان بودن اکوسیستم و گاهی دردسر ماژول‌های native
+            است. pnpm تقریباً همان سرعت را با پختگی بیشتر می‌دهد و
+            node_modules سخت‌گیرش وابستگی‌های فانتوم را می‌گیرد. و yarn —
+            گزینه‌ی فعلی اپ‌های ما — یعنی صفر مهاجرت، ولی کندترین است و
+            پیچیدگی Berry در ستاپ ما چیزی به ما نمی‌دهد. از نگاه بیزینس:
+            سود، دقیقه‌دقیقه‌ی CI و Docker build است؛ هزینه، مهاجرت lockfile
+            و شرط روی ابزار جوان‌تر. همین‌جا تصمیم بگیریم.
+          </aside>
+        </section>
+
+        <!-- 8 · CSP without Nuxt -->
+        <section
+          data-background-gradient="radial-gradient(circle at 30% 20%, #101d2a 0%, #0b0e14 65%)"
+        >
+          <h2>CSP — what actually changes without Nuxt</h2>
+          <div class="grid-2" style="margin-top: 0.4em">
+            <div class="card sky">
+              <h3>Reality check</h3>
+              <ul>
+                <li>CSP was <strong>never Nuxt's job</strong> here — <code>nuxt-security</code> is installed but its CSP is <strong>disabled</strong></li>
+                <li>nginx sets the headers (<code>common-protected.conf</code>) — for the SPA and the API alike</li>
+                <li>Leaving Nuxt changes <strong>nothing</strong> at the serving layer</li>
+              </ul>
+            </div>
+            <div class="card amber">
+              <h3>The real work — either way</h3>
+              <ul>
+                <li>Today's policy allows <code>'unsafe-inline'</code> + <code>'unsafe-eval'</code> — near-decorative</li>
+                <li>Vite prod build = hashed external chunks, no eval → <code>script-src 'self'</code> becomes possible</li>
+                <li>Roll out via <code>Content-Security-Policy-Report-Only</code>, then enforce</li>
+              </ul>
+            </div>
+          </div>
+<pre style="margin-top: 0.4em"><code class="language-text"># today (nginx)   default-src 'self' data: 'unsafe-inline' 'unsafe-eval'; …
+# target (pure Vue + Vite)
+Content-Security-Policy: default-src 'self'; script-src 'self';
+  style-src 'self' 'unsafe-inline'; img-src 'self' data:;
+  object-src 'none'; frame-ancestors 'self'; upgrade-insecure-requests</code></pre>
+          <p class="lead" style="margin-top: 0.3em; font-size: 0.58em">
+            <code>style-src 'unsafe-inline'</code> stays until UI-lib runtime styles are
+            audited — scripts lock down on day one
+          </p>
+          <aside class="notes">
+            سؤال درست درباره‌ی CSP این است: الان چه کسی آن را هندل می‌کند؟
+            جواب: Nuxt نه — nuxt-security نصب است اما CSP اش خاموش است و
+            هدرها را nginx در common-protected.conf ست می‌کند، هم برای SPA و
+            هم برای API. پس با خروج از Nuxt در لایه‌ی سرو هیچ چیزی عوض
+            نمی‌شود. کار واقعی — در هر دو دنیا — سفت‌کردن خود policy است:
+            امروز unsafe-inline و unsafe-eval مجاز است؛ یعنی CSP تقریباً
+            تزئینی است. خروجی production خود Vite چانک‌های external و hash
+            شده است و eval ندارد؛ پس script-src می‌تواند از روز اول فقط
+            self باشد. style-src را مرحله‌ای سفت می‌کنیم — بعد از ممیزی
+            style های runtime کتابخانه‌ی UI — و کل rollout را اول با
+            Report-Only می‌بندیم بعد enforce می‌کنیم.
           </aside>
         </section>
 
         <!-- ═══════════════ ACT II · UI FRAMEWORK ═══════════════ -->
 
-        <!-- 6 · Act II divider -->
+        <!-- 9 · Act II divider -->
         <section
           class="part-divider"
           data-background-gradient="radial-gradient(circle at 50% 40%, #171331 0%, #0b0e14 65%)"
@@ -251,7 +414,7 @@
           </aside>
         </section>
 
-        <!-- 7 · Decision criteria -->
+        <!-- 10 · Decision criteria -->
         <section>
           <h2>Our use case = our criteria</h2>
           <div class="grid-3" style="margin-top: 0.5em">
@@ -294,7 +457,7 @@
           </aside>
         </section>
 
-        <!-- 8 · Candidate: Nuxt UI -->
+        <!-- 11 · Candidate: Nuxt UI -->
         <section
           data-background-gradient="radial-gradient(circle at 20% 30%, #10231c 0%, #0b0e14 60%)"
         >
@@ -321,7 +484,7 @@
             </div>
           </div>
           <p class="lead" style="margin-top: 0.5em; font-size: 0.62em">
-            already running in <code>front-cp-v2</code> production
+            already proven end to end in <code>front-cp-v2</code> — our lab sample
           </p>
           <aside class="notes">
             کاندیدای اول: Nuxt UI نسخه‌ی ۴. اسمش گمراه‌کننده است — روی Reka UI
@@ -330,12 +493,12 @@
             Tailwind @theme و CSS variableها. نسخه‌ی ۴ کامپوننت‌های Pro را هم
             رایگان کرد. مستندات llms.txt دارد و skill رسمی‌اش را هم در
             skills-lock پروژه pin کرده‌ایم. ریسک‌ها: وابستگی به Tailwind و
-            جوان‌تر بودن نسبت به رقبا. و مهم‌تر از همه: الان در production ما
-            واقعاً کار می‌کند.
+            جوان‌تر بودن نسبت به رقبا. و مهم‌تر از همه: در نمونه‌ی کامل
+            front-cp-v2 سرتاسر — با RTL فارسی واقعی — محک خورده است.
           </aside>
         </section>
 
-        <!-- 9 · Candidate: Vuetify -->
+        <!-- 12 · Candidate: Vuetify -->
         <section>
           <h2>Candidate 2 · Vuetify 4</h2>
           <p class="lead">the incumbent — Material Design, batteries included</p>
@@ -370,7 +533,7 @@
           </aside>
         </section>
 
-        <!-- 10 · Candidate: PrimeVue -->
+        <!-- 13 · Candidate: PrimeVue -->
         <section>
           <h2>Candidate 3 · PrimeVue 4</h2>
           <p class="lead">the component powerhouse — 90+ widgets, token-themed</p>
@@ -403,7 +566,7 @@
           </aside>
         </section>
 
-        <!-- 11 · Candidate: shadcn-vue -->
+        <!-- 14 · Candidate: shadcn-vue -->
         <section>
           <h2>Candidate 4 · shadcn-vue</h2>
           <p class="lead">not a dependency — the CLI copies component source into your repo</p>
@@ -437,7 +600,7 @@
           </aside>
         </section>
 
-        <!-- 12 · Scorecard -->
+        <!-- 15 · Scorecard -->
         <section
           data-background-gradient="radial-gradient(circle at 70% 30%, #171331 0%, #0b0e14 65%)"
         >
@@ -519,7 +682,7 @@
           </aside>
         </section>
 
-        <!-- 13 · Proposal -->
+        <!-- 16 · Proposal -->
         <section
           data-background-gradient="radial-gradient(circle at 50% 20%, #10231c 0%, #0b0e14 60%)"
         >
@@ -532,7 +695,7 @@
             </p>
           </div>
           <ol class="numbered-grid" style="margin-top: 0.6em">
-            <li><strong>Proven here</strong> — powers <code>front-cp-v2</code> in production</li>
+            <li><strong>Proven in our lab</strong> — powers the <code>front-cp-v2</code> sample end to end</li>
             <li><strong>Token pipeline fits</strong> — our <code>tokens.css</code> is its native theming</li>
             <li><strong>Agent-ready</strong> — <code>llms.txt</code> docs, pinned skill in <code>skills-lock.json</code></li>
             <li><strong>One library</strong> — form → table → toast, no mixing</li>
@@ -550,7 +713,7 @@
           </div>
           <aside class="notes">
             پیشنهاد ما — نه حکم: Nuxt UI نسخه‌ی ۴ در حالت standalone روی Vue
-            خالص. پنج دلیل: یک، همین حالا در front-cp-v2 در production جواب
+            خالص. پنج دلیل: یک، در نمونه‌ی کامل front-cp-v2 سرتاسر جواب
             داده. دو، tokens.css ما دقیقاً مدل theming بومی آن است. سه، برای
             agentها آماده است — مستندات llms.txt و skill رسمی که pin
             کرده‌ایم. چهار، یک کتابخانه همه‌ی مسیر فرم تا جدول تا نوتیفیکیشن
@@ -561,7 +724,7 @@
 
         <!-- ═══════════════ ACT III · COMPONENTS ═══════════════ -->
 
-        <!-- 14 · Act III divider -->
+        <!-- 17 · Act III divider -->
         <section
           class="part-divider"
           data-background-gradient="radial-gradient(circle at 50% 40%, #101d2a 0%, #0b0e14 65%)"
@@ -580,7 +743,7 @@
           </aside>
         </section>
 
-        <!-- 15 · The four layers -->
+        <!-- 18 · The four layers -->
         <section>
           <h2>The four layers</h2>
           <div class="layers">
@@ -636,7 +799,7 @@
           </aside>
         </section>
 
-        <!-- 16 · Placement decision tree -->
+        <!-- 19 · Placement decision tree -->
         <section>
           <h2>Where does a new component go?</h2>
           <pre class="mermaid">
@@ -684,7 +847,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 17 · Wrapping heavy libs -->
+        <!-- 20 · Wrapping heavy libs -->
         <section
           data-background-gradient="radial-gradient(circle at 20% 80%, #171331 0%, #0b0e14 65%)"
         >
@@ -718,7 +881,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 18 · The modern component hierarchy -->
+        <!-- 21 · The modern component hierarchy -->
         <section
           data-background-gradient="radial-gradient(circle at 75% 25%, #101d2a 0%, #0b0e14 65%)"
         >
@@ -796,7 +959,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 19 · Modern hierarchy vs ours -->
+        <!-- 22 · Modern hierarchy vs ours -->
         <section>
           <h2>The hierarchy vs ours — close cousins</h2>
           <table style="width: 100%">
@@ -878,7 +1041,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 20 · Migrate or not — open decision -->
+        <!-- 23 · Migrate or not — open decision -->
         <section
           data-background-gradient="radial-gradient(circle at 25% 75%, #241a10 0%, #0b0e14 65%)"
         >
@@ -942,7 +1105,7 @@ flowchart LR
 
         <!-- ═══════════════ ACT IV · LOGIC ═══════════════ -->
 
-        <!-- 21 · Act IV divider -->
+        <!-- 24 · Act IV divider -->
         <section
           class="part-divider"
           data-background-gradient="radial-gradient(circle at 50% 40%, #241a10 0%, #0b0e14 65%)"
@@ -956,7 +1119,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 22 · Three homes for logic -->
+        <!-- 25 · Three homes for logic -->
         <section>
           <h2>Three homes, one rule each</h2>
           <div class="grid-3" style="margin-top: 0.5em">
@@ -1006,7 +1169,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 23 · Logic decision tree -->
+        <!-- 26 · Logic decision tree -->
         <section>
           <h2>Which one? Ask in order</h2>
           <pre class="mermaid">
@@ -1038,8 +1201,8 @@ flowchart LR
   class util,store,uc,comp leaf
           </pre>
           <p class="lead" style="margin-top: 0.3em; text-align: center; font-size: 0.62em">
-            <code>front-cp-v2</code> has <strong>3 global stores</strong> total —
-            auth · theme · cart. That's the point.
+            the <code>front-cp-v2</code> sample: <strong>3 global stores</strong> —
+            auth · theme · cart. Our legacy dashboard: <strong>10+</strong>. That's the smell.
           </p>
           <div class="biz">
             <div class="gain">
@@ -1061,11 +1224,11 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 24 · Real examples -->
+        <!-- 27 · Real examples -->
         <section
           data-background-gradient="radial-gradient(circle at 80% 60%, #101d2a 0%, #0b0e14 65%)"
         >
-          <h2>Real examples — <code>front-cp-v2</code></h2>
+          <h2>Real examples — the <code>front-cp-v2</code> sample</h2>
           <table style="width: 100%">
             <thead>
               <tr>
@@ -1118,7 +1281,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 25 · Anti-patterns -->
+        <!-- 28 · Anti-patterns -->
         <section>
           <h2>Instant review rejections</h2>
           <div class="grid-2x2" style="margin-top: 0.5em">
@@ -1151,7 +1314,7 @@ flowchart LR
 
         <!-- ═══════════════ ACT V · LABS & TOKENS ═══════════════ -->
 
-        <!-- 26 · Act V divider -->
+        <!-- 29 · Act V divider -->
         <section
           class="part-divider"
           data-background-gradient="radial-gradient(circle at 50% 40%, #10231c 0%, #0b0e14 65%)"
@@ -1165,7 +1328,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 27 · Design tokens -->
+        <!-- 30 · Design tokens -->
         <section>
           <h2>Design tokens — one source, every surface</h2>
           <div class="swatch-row">
@@ -1214,7 +1377,7 @@ flowchart LR
           </aside>
         </section>
 
-        <!-- 28 · The Labs screen -->
+        <!-- 31 · The Labs screen -->
         <section
           data-background-gradient="radial-gradient(circle at 30% 30%, #171331 0%, #0b0e14 65%)"
         >
@@ -1274,7 +1437,7 @@ flowchart LR
 
         <!-- ═══════════════ CLOSE ═══════════════ -->
 
-        <!-- 29 · Agents enforce it -->
+        <!-- 32 · Agents enforce it -->
         <section>
           <h2>None of this relies on memory</h2>
           <div class="grid-2" style="grid-template-columns: 1fr 1.1fr; align-items: center">
@@ -1341,38 +1504,51 @@ flowchart TB
           </aside>
         </section>
 
-        <!-- 30 · Recap -->
+        <!-- 33 · Recap -->
         <section
           class="title"
           data-background-gradient="radial-gradient(circle at 25% 25%, #10231c 0%, #0b0e14 55%), radial-gradient(circle at 80% 75%, #171331 0%, #0b0e14 60%)"
         >
-          <h2 style="text-align: center">Six decisions — on the table</h2>
+          <h2 style="text-align: center">Seven decisions — on the table</h2>
           <p class="lead" style="text-align: center; font-size: 0.62em; margin-top: -0.3em">
             defined and compared above · nothing is final until we've talked
           </p>
-          <ol class="numbered-grid" style="margin-top: 0.6em; text-align: left">
+          <ol class="numbered-grid" style="margin-top: 0.5em; text-align: left">
             <li><strong>Pure Vue + Vite</strong> — leave Nuxt for explicit over magic?</li>
             <li><strong>UI framework</strong> — scorecard favors Nuxt UI v4 standalone</li>
+            <li><strong>Package manager</strong> — bun, pnpm, or stay on yarn</li>
             <li><strong>Four component layers</strong> — Base* / App* / module / screen</li>
             <li><strong>Component taxonomy</strong> — adopt the modern hierarchy, hybrid, or keep ours</li>
             <li><strong>Logic placement</strong> — util → store → use-case → composable</li>
             <li><strong>Tokens + Labs</strong> — the design system as running code</li>
           </ol>
-          <p class="lead" style="margin-top: 0.8em; font-size: 0.65em">
-            once decided: scaffold the repo · port <code>tokens.css</code> · build Labs
-            first · then the first module
+          <p class="lead" style="margin-top: 0.6em; font-size: 0.65em">
+            once decided: scaffold the first rewrite · port <code>tokens.css</code> ·
+            build Labs first · then the first module
+
           </p>
-          <p style="margin-top: 0.7em">
-            <span class="tag mono">STORY.md — full narration (fa)</span>
-          </p>
+          <div class="biz" style="max-width: 34em; margin-left: auto; margin-right: auto">
+            <div class="gain" style="text-align: left">
+              <strong>Next meeting ①</strong> — the error-handling engine: how errors
+              are caught, shaped, and surfaced
+            </div>
+            <div class="gain" style="text-align: left">
+              <strong>Next meeting ②</strong> — logs &amp; telemetry: client logging,
+              metrics, tracing
+            </div>
+          </div>
           <aside class="notes">
-            جمع‌بندی: شش تصمیم روی میز — و هیچ‌کدام هنوز گرفته نشده. یک: خروج
+            جمع‌بندی: هفت تصمیم روی میز — و هیچ‌کدام هنوز گرفته نشده. یک: خروج
             از Nuxt به Vue خالص. دو: فریم‌ورک UI — جدول امتیاز به Nuxt UI
-            اشاره می‌کند. سه: چهار لایه‌ی کامپوننت. چهار: نام‌گذاری —
-            سلسله‌مراتب مدرن، ترکیبی یا خودمان. پنج: جای منطق. شش: توکن‌ها و
-            Labs. حالا یکی‌یکی
-            بحث کنیم و تصمیم بگیریم؛ بعد از تصمیم‌ها: اسکافولد repo، پورت
-            tokens.css، اول Labs، بعد اولین ماژول.
+            اشاره می‌کند. سه: package manager — bun یا pnpm یا ماندن روی
+            yarn. چهار: چهار لایه‌ی کامپوننت. پنج: نام‌گذاری — سلسله‌مراتب
+            مدرن، ترکیبی یا خودمان. شش: جای منطق. هفت: توکن‌ها و Labs. حالا
+            یکی‌یکی بحث کنیم و تصمیم بگیریم؛ بعد از تصمیم‌ها: اسکافولد
+            اولین بازنویسی، پورت tokens.css، اول Labs، بعد اولین ماژول. و
+            موضوع جلسه‌ی بعد را همین حالا اعلام می‌کنم: یک، سیستم یا موتور
+            error handling — این‌که خطاها کجا گرفته، چطور شکل داده و چطور به
+            کاربر و تیم نمایش داده شوند. دو، مدیریت log ها و telemetry —
+            لاگ سمت کلاینت، متریک‌ها و tracing.
           </aside>
         </section>
       </div>
